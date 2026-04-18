@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PropFi – Live Integration Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="brand">
+    <span class="logo-icon">🏛️</span>
+    <span class="logo-text">Prop<span class="accent">Fi</span></span>
+    <span class="tagline">Fractional Real Estate on Blockchain</span>
+  </div>
+  <div class="nav-status">
+    <div class="status-dot" id="wsStatus">
+      <span class="dot pulse"></span><span class="status-label">Polygon Mumbai Testnet</span>
+    </div>
+    <div class="wallet-badge" id="walletBadge">🦊 0x742d...c3A1</div>
+  </div>
+</nav>
+
+<!-- ── SYSTEM STATUS BAR ── -->
+<div class="status-bar">
+  <div class="stat-item"><span class="stat-label">⛓ Block</span><span class="stat-val" id="blockNum">54,231,093</span></div>
+  <div class="stat-item"><span class="stat-label">⚡ Gas</span><span class="stat-val">32 gwei</span></div>
+  <div class="stat-item"><span class="stat-label">🤖 AI Engine</span><span class="stat-val green">LIVE</span></div>
+  <div class="stat-item"><span class="stat-label">💧 Total TVL</span><span class="stat-val" id="tvl">₹23.4 Cr</span></div>
+  <div class="stat-item"><span class="stat-label">🏘 Properties</span><span class="stat-val">6</span></div>
+  <div class="stat-item"><span class="stat-label">👥 Holders</span><span class="stat-val">694</span></div>
+  <div class="stat-item"><span class="stat-label">🕒 Next Rent</span><span class="stat-val green">13 days</span></div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">🏆 Hackathon Demo – Live System</div>
+    <h1>Democratizing Real Estate<br/>Through <span class="gradient-text">Blockchain + AI</span></h1>
+    <p>Invest ₹1,000 in Mumbai real estate. Earn rental income. Trade anytime. No middlemen.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-num">₹1,000</div><div class="h-lbl">Minimum Investment</div></div>
+      <div class="h-stat"><div class="h-num">6.2–8.4%</div><div class="h-lbl">Rental Yield</div></div>
+      <div class="h-stat"><div class="h-num">&lt;3s</div><div class="h-lbl">Settlement Time</div></div>
+      <div class="h-stat"><div class="h-num">0%</div><div class="h-lbl">Middlemen Fees</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAIN GRID ── -->
+<main class="main-grid">
+
+  <!-- LEFT: Property Cards -->
+  <section class="col-properties">
+    <div class="section-header">
+      <h2>🏘 Live Properties</h2>
+      <div class="filter-tabs">
+        <button class="tab active" onclick="filterProps('all',this)">All</button>
+        <button class="tab" onclick="filterProps('Mumbai',this)">Mumbai</button>
+        <button class="tab" onclick="filterProps('Bengaluru',this)">Bengaluru</button>
+        <button class="tab" onclick="filterProps('Gurgaon',this)">Gurgaon</button>
+        <button class="tab land-tab" onclick="filterProps('Land',this)">🌍 Land Parcels</button>
+      </div>
+    </div>
+    <div id="propertyGrid" class="property-grid"></div>
+  </section>
+
+  <!-- RIGHT: Side Panels -->
+  <aside class="col-right">
+
+    <!-- Portfolio -->
+    <div class="panel" id="portfolioPanel">
+      <h3>💼 My Portfolio</h3>
+      <div class="portfolio-total">
+        <div class="pt-row"><span>Total Value</span><strong id="ptValue">₹2,37,500</strong></div>
+        <div class="pt-row"><span>Monthly Rental</span><strong class="green" id="ptRental">₹1,687</strong></div>
+        <div class="pt-row"><span>Avg Yield</span><strong class="green" id="ptYield">6.8%</strong></div>
+      </div>
+      <div id="holdingsList" class="holdings-list"></div>
+    </div>
+
+    <!-- Live TX Feed -->
+    <div class="panel">
+      <h3>⛓ Live Transactions <span class="live-badge">LIVE</span></h3>
+      <div id="txFeed" class="tx-feed"></div>
+    </div>
+
+    <!-- AI Price Chart -->
+    <div class="panel">
+      <h3>🤖 AI Price Tracker</h3>
+      <div class="chart-select">
+        <select id="chartPropSelect" onchange="updateChart()"></select>
+      </div>
+      <canvas id="priceChart" height="160"></canvas>
+      <div id="aiFactors" class="ai-factors"></div>
+    </div>
+
+    <!-- ZK Proof Demo -->
+    <div class="panel">
+      <h3>🔒 Zero-Knowledge Proof</h3>
+      <p class="panel-desc">Prove your rental income without revealing property details.</p>
+      <div class="zk-form">
+        <select id="zkType">
+          <option value="INCOME_ABOVE_THRESHOLD">Income &gt; Threshold</option>
+          <option value="OWNERSHIP_PROOF">Property Ownership</option>
+          <option value="NO_DISPUTES">No Pending Disputes</option>
+        </select>
+        <input id="zkThreshold" type="number" placeholder="Threshold (₹)" value="10000"/>
+        <button class="btn-primary" onclick="generateZKProof()">Generate ZK Proof</button>
+      </div>
+      <div id="zkResult" class="zk-result hidden"></div>
+    </div>
+
+    <!-- DAO Proposals -->
+    <div class="panel">
+      <h3>🗳 DAO Governance</h3>
+      <div id="daoProposals" class="dao-list"></div>
+    </div>
+
+  </aside>
+</main>
+
+<!-- ── BUY MODAL ── -->
+<div id="buyModal" class="modal-overlay hidden">
+  <div class="modal">
+    <button class="modal-close" onclick="closeBuyModal()">✕</button>
+    <h2>💸 Invest in Property</h2>
+    <div id="modalPropName" class="modal-prop-name"></div>
+    <div class="modal-form">
+      <label>Number of Tokens</label>
+      <input id="buyTokens" type="number" min="1" value="10" oninput="updateBuyCost()"/>
+      <div class="cost-breakdown">
+        <div class="cb-row"><span>Price per token</span><span id="cbPrice">₹0</span></div>
+        <div class="cb-row"><span>Token cost</span><span id="cbCost">₹0</span></div>
+        <div class="cb-row"><span>Gas fee (~)</span><span id="cbGas">₹12</span></div>
+        <div class="cb-row total"><span>Total</span><span id="cbTotal">₹0</span></div>
+      </div>
+      <div class="ownership-preview">
+        You will own <strong id="ownershipPct">0.10%</strong> of this property
+        and earn <strong id="monthlyEarn">₹0</strong>/month in rent
+      </div>
+      <button class="btn-primary big" id="confirmBuyBtn" onclick="confirmBuy()">
+        🦊 Connect & Buy Tokens
+      </button>
+    </div>
+    <div id="txResult" class="tx-result hidden"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

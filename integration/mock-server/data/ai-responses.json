@@ -1,0 +1,146 @@
+{
+  "prop_001": {
+    "propertyId": "prop_001",
+    "propertyName": "Bandra West Luxury Apartment",
+    "currentPrice": 2500,
+    "predictedPrice6M": 2708,
+    "predictedGrowth": 8.3,
+    "confidence": 0.87,
+    "riskScore": 82,
+    "riskLevel": "Low-Medium",
+    "lastUpdated": "2026-04-18T15:00:00Z",
+    "nextUpdate": "2026-04-18T21:00:00Z",
+    "factors": {
+      "metroProximity": { "impact": 3.2, "label": "Close to Bandra Station (400m)", "positive": true },
+      "schoolRating": { "impact": 1.8, "label": "Top-rated schools nearby", "positive": true },
+      "marketSentiment": { "impact": 0.9, "label": "Mumbai West positive sentiment", "positive": true },
+      "recentSales": { "impact": -0.4, "label": "2 distress sales last month", "positive": false },
+      "developmentNearby": { "impact": 2.8, "label": "BKC Connector Road Project", "positive": true }
+    },
+    "comparables": [
+      { "address": "Sea Princess Heights, Bandra", "price": 2480, "date": "2026-04-10" },
+      { "address": "Pali Hill Residences", "price": 2650, "date": "2026-04-05" },
+      { "address": "Carter Road Apartments", "price": 2380, "date": "2026-03-28" }
+    ]
+  },
+  "prop_002": {
+    "propertyId": "prop_002",
+    "propertyName": "Koramangala Studio Apartment",
+    "currentPrice": 850,
+    "predictedPrice6M": 945,
+    "predictedGrowth": 11.2,
+    "confidence": 0.91,
+    "riskScore": 78,
+    "riskLevel": "Low-Medium",
+    "lastUpdated": "2026-04-18T15:00:00Z",
+    "nextUpdate": "2026-04-18T21:00:00Z",
+    "factors": {
+      "metroProximity": { "impact": 2.1, "label": "Purple Line Station 600m", "positive": true },
+      "schoolRating": { "impact": 2.4, "label": "Premium school zone", "positive": true },
+      "marketSentiment": { "impact": 3.1, "label": "Koramangala startup boom", "positive": true },
+      "recentSales": { "impact": 1.2, "label": "Strong Q1 2026 sales", "positive": true },
+      "developmentNearby": { "impact": 2.4, "label": "IT Park expansion nearby", "positive": true }
+    },
+    "comparables": [
+      { "address": "Forum Mall Area Studio", "price": 820, "date": "2026-04-12" },
+      { "address": "4th Block Studios", "price": 870, "date": "2026-04-08" },
+      { "address": "5th Cross 1BHK", "price": 880, "date": "2026-03-30" }
+    ]
+  },
+  "prop_003": {
+    "propertyId": "prop_003",
+    "propertyName": "DLF Cyber City Commercial Office",
+    "currentPrice": 5500,
+    "predictedPrice6M": 5869,
+    "predictedGrowth": 6.7,
+    "confidence": 0.93,
+    "riskScore": 88,
+    "riskLevel": "Low",
+    "lastUpdated": "2026-04-18T15:00:00Z",
+    "nextUpdate": "2026-04-18T21:00:00Z",
+    "factors": {
+      "metroProximity": { "impact": 4.1, "label": "HUDA City Centre Metro (200m)", "positive": true },
+      "schoolRating": { "impact": 0.5, "label": "Good schools 2km away", "positive": true },
+      "marketSentiment": { "impact": 1.2, "label": "Stable commercial demand", "positive": true },
+      "recentSales": { "impact": 0.3, "label": "Consistent Q-o-Q growth", "positive": true },
+      "developmentNearby": { "impact": 0.6, "label": "DLF Phase 3 expansion", "positive": true }
+    },
+    "comparables": [
+      { "address": "Cyber Hub Office Space A", "price": 5600, "date": "2026-04-11" },
+      { "address": "Cyber City Tower B", "price": 5450, "date": "2026-04-03" },
+      { "address": "Phase 3 Commercial Complex", "price": 5380, "date": "2026-03-25" }
+    ]
+  },
+  "prop_004": {
+    "propertyId": "prop_004",
+    "propertyName": "Jubilee Hills Villa",
+    "currentPrice": 4500,
+    "predictedPrice6M": 4910,
+    "predictedGrowth": 9.1,
+    "confidence": 0.84,
+    "riskScore": 75,
+    "riskLevel": "Medium",
+    "lastUpdated": "2026-04-18T15:00:00Z",
+    "nextUpdate": "2026-04-18T21:00:00Z",
+    "factors": {
+      "metroProximity": { "impact": 0.8, "label": "Metro 3.2km away", "positive": true },
+      "schoolRating": { "impact": 2.1, "label": "Elite school zone", "positive": true },
+      "marketSentiment": { "impact": 2.8, "label": "Hyderabad luxury boom", "positive": true },
+      "recentSales": { "impact": 1.9, "label": "Strong villa demand Q1", "positive": true },
+      "developmentNearby": { "impact": 1.5, "label": "HITEC City expansion impact", "positive": true }
+    },
+    "comparables": [
+      { "address": "Road 45 Villa Complex", "price": 4600, "date": "2026-04-09" },
+      { "address": "Jubilee Hills Bungalow", "price": 4400, "date": "2026-04-01" },
+      { "address": "Film Nagar Adjacent Plot", "price": 4650, "date": "2026-03-20" }
+    ]
+  },
+  "prop_005": {
+    "propertyId": "prop_005",
+    "propertyName": "Andheri West 2BHK",
+    "currentPrice": 1200,
+    "predictedPrice6M": 1290,
+    "predictedGrowth": 7.5,
+    "confidence": 0.82,
+    "riskScore": 71,
+    "riskLevel": "Medium",
+    "lastUpdated": "2026-04-18T15:00:00Z",
+    "nextUpdate": "2026-04-18T21:00:00Z",
+    "factors": {
+      "metroProximity": { "impact": 3.8, "label": "Andheri Station (300m)", "positive": true },
+      "schoolRating": { "impact": 1.5, "label": "Good schools in zone", "positive": true },
+      "marketSentiment": { "impact": 0.7, "label": "Stable Andheri market", "positive": true },
+      "recentSales": { "impact": 0.2, "label": "Moderate sales activity", "positive": true },
+      "developmentNearby": { "impact": 1.3, "label": "Coastal Road access", "positive": true }
+    },
+    "comparables": [
+      { "address": "Versova 2BHK Complex", "price": 1180, "date": "2026-04-14" },
+      { "address": "DN Nagar Apartment", "price": 1220, "date": "2026-04-06" },
+      { "address": "Lokhandwala 2BHK", "price": 1250, "date": "2026-03-29" }
+    ]
+  },
+  "prop_006": {
+    "propertyId": "prop_006",
+    "propertyName": "Powai Hiranandani 3BHK",
+    "currentPrice": 2200,
+    "predictedPrice6M": 2374,
+    "predictedGrowth": 7.9,
+    "confidence": 0.89,
+    "riskScore": 85,
+    "riskLevel": "Low-Medium",
+    "lastUpdated": "2026-04-18T15:00:00Z",
+    "nextUpdate": "2026-04-18T21:00:00Z",
+    "factors": {
+      "metroProximity": { "impact": 1.9, "label": "Metro line under construction", "positive": true },
+      "schoolRating": { "impact": 2.2, "label": "IIT Bombay proximity", "positive": true },
+      "marketSentiment": { "impact": 1.4, "label": "Powai tech hub sentiment", "positive": true },
+      "recentSales": { "impact": 0.8, "label": "Consistent sales pace", "positive": true },
+      "developmentNearby": { "impact": 1.6, "label": "New metro connectivity by 2027", "positive": true }
+    },
+    "comparables": [
+      { "address": "Hiranandani Estate Apts", "price": 2250, "date": "2026-04-13" },
+      { "address": "Powai Lake View Towers", "price": 2180, "date": "2026-04-05" },
+      { "address": "Central Avenue Powai", "price": 2220, "date": "2026-03-27" }
+    ]
+  }
+}

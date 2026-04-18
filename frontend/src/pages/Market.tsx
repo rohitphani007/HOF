@@ -1,16 +1,34 @@
-import { Filter } from 'lucide-react';
+import { Filter, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import './Market.css';
 
 export default function Market() {
-  const assets = [
-    { id: '1', name: 'Bandra Kurla Complex Plot', location: 'Mumbai', symbol: 'BKC-01', price: '₹42,500/sqft', cap: '₹120 Cr', change: '+5.2%', isUp: true, type: 'Commercial', image: '/bkc.png' },
-    { id: '2', name: 'Whitefield Tech Park', location: 'Bengaluru', symbol: 'WTP-88', price: '₹18,200/sqft', cap: '₹85 Cr', change: '+3.8%', isUp: true, type: 'Commercial', image: '/hsr.png' },
-    { id: '3', name: 'Gurugram Cyber City', location: 'Delhi NCR', symbol: 'GCC-12', price: '₹22,100/sqft', cap: '₹150 Cr', change: '-1.4%', isUp: false, type: 'Mixed Use', image: '/cyberhub.png' },
-    { id: '4', name: 'Koramangala Retail Hub', location: 'Bengaluru', symbol: 'KRM-05', price: '₹25,600/sqft', cap: '₹40 Cr', change: '+1.2%', isUp: true, type: 'Retail', image: '/hsr.png' },
-    { id: '5', name: 'Hinjewadi IT Phase 3', location: 'Pune', symbol: 'HIN-33', price: '₹9,800/sqft', cap: '₹60 Cr', change: '+8.4%', isUp: true, type: 'Commercial', image: '/bkc.png' },
-    { id: '6', name: 'Gachibowli Financial District', location: 'Hyderabad', symbol: 'GBD-09', price: '₹14,500/sqft', cap: '₹95 Cr', change: '-0.8%', isUp: false, type: 'Commercial', image: '/cyberhub.png' },
-  ];
+  const [assets, setAssets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://localhost:8001/api/v1/properties/featured')
+      .then(res => res.json())
+      .then(data => {
+        setAssets(data.properties || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch from AI backend:', err);
+        // Fallback to empty if server not running
+        setAssets([]);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="market animate-fade-in" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}>
+        <Loader2 className="animate-spin text-primary" size={48} />
+      </div>
+    );
+  }
 
   return (
     <div className="market animate-fade-in">
@@ -32,31 +50,31 @@ export default function Market() {
         {assets.map((asset, index) => (
           <Link to={`/asset/${asset.id}`} key={asset.id} className={`asset-card card stagger-${(index % 5) + 1}`}>
             <div className="asset-image-container">
-              <img src={asset.image} alt={asset.name} className="asset-image" loading="lazy" decoding="async" />
+              <img src={asset.images[0]?.url || '/bkc.png'} alt={asset.title} className="asset-image" loading="lazy" decoding="async" />
             </div>
             
             <div className="asset-content">
               <div className="asset-tags">
                 <span className="tag">{asset.type}</span>
-                <span className="symbol-tag">{asset.symbol}</span>
+                <span className="symbol-tag">PROP-{asset.id}</span>
               </div>
               
-              <h3 className="asset-name">{asset.name}</h3>
+              <h3 className="asset-name">{asset.title}</h3>
               
               <div className="asset-metrics">
                 <div className="metric">
                   <span className="label">Current Price</span>
-                  <span className="value">{asset.price}</span>
+                  <span className="value">{asset.price_range}</span>
                 </div>
                 <div className="metric">
-                  <span className="label">Market Cap</span>
-                  <span className="value">{asset.cap}</span>
+                  <span className="label">Expected Yield</span>
+                  <span className="value text-success">{asset.rental_yield_pct}</span>
                 </div>
               </div>
               
               <div className="asset-footer">
-                <span className={`change ${asset.isUp ? 'text-success' : 'text-danger'} bg-${asset.isUp ? 'success' : 'danger'}-transparent`}>
-                  {asset.change} (24h)
+                <span className={`change text-success bg-success-transparent`}>
+                  AI Verified ✓
                 </span>
                 <span className="action-text">Trade Now &rarr;</span>
               </div>

@@ -1,9 +1,11 @@
 import { TrendingUp, TrendingDown, ArrowUpRight, Activity, Zap, Shield, BarChart3, MapPin, Clock, Users, Globe2, X, Wallet, ShieldCheck, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+// @ts-ignore
+import PropFiAPI from '../api-client';
 import './Dashboard.css';
 
 /* ── Animated counter ──────────────────────── */
-import { useEffect, useRef, useState } from 'react';
 function Counter({ target, prefix='', suffix='' }: { target:number; prefix?:string; suffix?:string }) {
   const [n, setN] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -31,19 +33,47 @@ function Counter({ target, prefix='', suffix='' }: { target:number; prefix?:stri
 
 export default function Dashboard() {
   const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [activity, setActivity] = useState<any[]>([]);
+  
+  useEffect(() => {
+    // Connect to WebSocket Live Feed
+    const ws = PropFiAPI.connectLiveFeed({
+      onInit: () => {
+        // Initial data if needed
+      },
+      onPriceTick: () => {
+        // Price tick updates could go here if used in UI
+      },
+      onNewTx: (tx: any) => {
+        setActivity((prev: any) => [
+          {
+            user: tx.shortAddress,
+            action: `${tx.type === 'BUY' ? 'Bought' : 'Sold'} ${tx.tokens} tokens of ${tx.propertyName}`,
+            time: 'Just now',
+            color: tx.type === 'BUY' ? 'var(--accent-green)' : 'var(--accent-red)'
+          },
+          ...prev
+        ].slice(0, 10)); // Keep last 10
+      }
+    });
+    
+    // Fetch initial transactions to seed activity
+    PropFiAPI.getTransactions(5).then((txs: any) => {
+      setActivity(txs.map((tx: any) => ({
+        user: tx.shortAddress,
+        action: `${tx.type === 'BUY' ? 'Bought' : 'Sold'} ${tx.tokens} tokens of ${tx.propertyName}`,
+        time: new Date(tx.timestamp).toLocaleTimeString(),
+        color: tx.type === 'BUY' ? 'var(--accent-green)' : 'var(--accent-red)'
+      })));
+    }).catch(console.error);
+
+    return () => ws.close();
+  }, []);
 
   const topMovers = [
     { id:'1', name:'Bandra Kurla Complex', location:'Mumbai',    symbol:'BKC-01', price:'₹42,500', change:'+5.2%', isUp:true,  image:'/bkc.png'     },
     { id:'2', name:'Whitefield Tech Park', location:'Bengaluru', symbol:'WTP-88', price:'₹18,200', change:'+3.8%', isUp:true,  image:'/hsr.png'     },
     { id:'3', name:'Gurugram Cyber City',  location:'Delhi NCR', symbol:'GCC-12', price:'₹22,100', change:'-1.4%', isUp:false, image:'/cyberhub.png' },
-  ];
-
-  const activity = [
-    { user:'Aryan M.',  action:'Bought 12 fractions of BKC-01',       time:'2m ago',  color:'var(--accent-green)'  },
-    { user:'Priya K.',  action:'Claimed yield on WTP-88',              time:'8m ago',  color:'var(--accent-blue)'   },
-    { user:'Rohit S.',  action:'Voted YES on Proposal #47',            time:'15m ago', color:'var(--accent-purple)' },
-    { user:'Meera L.',  action:'Opened derivatives on GCC-12',         time:'22m ago', color:'var(--accent-orange)' },
-    { user:'Kiran J.',  action:'ZK proof generated for BKC-01',        time:'31m ago', color:'var(--accent-green)'  },
   ];
 
   const tickers = [
@@ -182,12 +212,13 @@ export default function Dashboard() {
         {/* Live Activity */}
         <div className="card card-3d stagger-5">
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1rem'}}>
-            <h3 className="section-title" style={{margin:0}}>Live Activity</h3>
+            <h3 className="section-title" style={{margin:0}}>Live Activity Feed</h3>
             <span className="live-badge">
               <span className="live-dot"/>LIVE
             </span>
           </div>
           <div className="activity-list">
+            {activity.length === 0 && <div className="text-muted" style={{fontSize: '0.85rem', textAlign: 'center', padding: '1rem'}}>Waiting for transactions...</div>}
             {activity.map((a,i) => (
               <div key={i} className="activity-item" onClick={() => setSelectedUser(a)} style={{cursor: 'pointer'}}>
                 <div className="activity-dot" style={{background:a.color}}/>
