@@ -33,13 +33,13 @@
   ],
   "price_metrics": {
     "test_r2": 0.992,
-    "test_mape_pct": 6.08,
-    "test_rmse": 3652.36,
+    "test_mape_pct": 6.06,
+    "test_rmse": 3653.57,
     "cv_r2_mean": 0.9921,
     "cv_r2_std": 0.0002
   },
   "yield_metrics": {
     "test_r2": 0.8964,
-    "test_mape_pct": 17.03
+    "test_mape_pct": 17.02
   }
 }
