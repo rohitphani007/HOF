@@ -1,0 +1,164 @@
+.dao {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.rep-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-md);
+  color: var(--accent-primary);
+  font-weight: 700;
+  box-shadow: var(--shadow-glow);
+}
+
+.dispute-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.dispute-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.case-id {
+  font-family: monospace;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.description {
+  margin-top: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.ai-analysis {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  background: rgba(99, 102, 241, 0.05);
+  border-left: 4px solid var(--accent-primary);
+}
+
+.ai-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.ai-recommendation {
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.progress-container {
+  margin-bottom: 1.5rem;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  display: flex;
+  height: 12px;
+  background-color: var(--bg-base);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-fill.landlord {
+  background-color: var(--accent-danger);
+}
+
+.progress-fill.tenant {
+  background-color: var(--accent-primary);
+}
+
+.vote-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.vote-btn {
+  flex: 1;
+}
+
+.side-proposals {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+}
+
+.mini-proposal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.mini-proposal h4 {
+  font-size: 1.05rem;
+}
+
+.mini-proposal p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.tag {
+  align-self: flex-start;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.bg-primary-transparent {
+  background-color: rgba(99, 102, 241, 0.15);
+}
+
+.mini-vote {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}

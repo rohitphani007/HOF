@@ -1,0 +1,247 @@
+.derivatives {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.derivatives-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.header-stats {
+  display: flex;
+  gap: 2rem;
+  background-color: var(--bg-surface);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat .label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.stat .value {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.trade-interface-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 2rem;
+}
+
+.list-header {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1rem;
+}
+
+.contract-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contract-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background-color: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.contract-item:hover {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-surface-hover);
+}
+
+.contract-info {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
+
+.contract-info .symbol {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.contract-info .name {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.contract-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1.5;
+  gap: 0.25rem;
+}
+
+.contract-stats .expiry {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.contract-stats .volume {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.contract-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 1;
+}
+
+.contract-price .price {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.contract-price .change {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.leverage-selector label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.slider-wrapper {
+  margin-top: 1rem;
+}
+
+.custom-slider {
+  width: 100%;
+  accent-color: var(--accent-primary);
+  height: 6px;
+  background: var(--bg-base);
+  border-radius: 4px;
+  outline: none;
+}
+
+.leverage-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.badge-corner {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: linear-gradient(90deg, #6366F1, #8B5CF6);
+  color: white;
+  padding: 0.25rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-glow);
+}
+
+.mt-4 { margin-top: 1.5rem; }
+.mt-3 { margin-top: 1rem; }
+.w-100 { width: 100%; }
+
+.risk-warning {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* ─── Active Trade Box Form Styling ─── */
+.order-box {
+  margin-bottom: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.input-group input {
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(10,132,255,0.15);
+}
+
+.trade-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.25rem;
+  background: rgba(0,0,0,0.15);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+[data-theme="light"] .trade-summary {
+  background: rgba(0,0,0,0.03);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.summary-row span:first-child {
+  color: var(--text-secondary);
+}
+
+.summary-row span:last-child {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.summary-row .text-danger {
+  color: var(--accent-danger) !important;
+}
