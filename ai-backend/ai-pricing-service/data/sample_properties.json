@@ -1,0 +1,227 @@
+[
+  {
+    "id": 1, "title": "Sea-Facing Penthouse Plot, Worli", "type": "Luxury Residential",
+    "address": "Worli Sea Face, Mumbai, Maharashtra 400018",
+    "city": "Mumbai", "state": "Maharashtra", "lat": 19.0067, "lng": 72.8147,
+    "price_range": "INR 15 Cr - 22 Cr", "price_per_sqft_range": "INR 1,20,000 - 1,80,000",
+    "rental_yield_pct": "2.8% - 3.5%", "builder": "Lodha Group",
+    "description": "Prime sea-facing land parcel in Worli with FSI 3.0. Ideal for luxury residential tower. RERA approved, zero transit distance to Bandra-Worli Sea Link.",
+    "features": { "city_tier": "Tier1", "state": "Maharashtra", "micro_market": "Worli", "land_use_type": "Residential", "land_area_sqft": 8000, "floor_area_ratio": 3.0, "distance_to_highway_km": 0.5, "distance_to_transit_km": 0.3, "distance_to_city_center_km": 3.0, "amenities_score": 10, "is_rera_approved": true, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "Aerial View", "url": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=1200"},
+      {"label": "Sea View", "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200"},
+      {"label": "Location", "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200"}
+    ],
+    "tags": ["Sea-Facing", "RERA Approved", "FSI 3.0", "Premium", "Worli"]
+  },
+  {
+    "id": 2, "title": "Tech Corridor Plot, Whitefield", "type": "Mixed-Use",
+    "address": "Whitefield Main Road, Bengaluru, Karnataka 560066",
+    "city": "Bangalore", "state": "Karnataka", "lat": 12.9698, "lng": 77.7499,
+    "price_range": "INR 1.5 Cr - 2.5 Cr", "price_per_sqft_range": "INR 6,500 - 9,000",
+    "rental_yield_pct": "5.2% - 7.1%", "builder": "Prestige Group",
+    "description": "Strategic mixed-use plot near ITPL tech park. High commercial rental potential. Metro Phase 2 station 800m away.",
+    "features": { "city_tier": "Tier1", "state": "Karnataka", "micro_market": "Whitefield", "land_use_type": "Mixed-Use", "land_area_sqft": 12000, "floor_area_ratio": 2.5, "distance_to_highway_km": 1.2, "distance_to_transit_km": 0.8, "distance_to_city_center_km": 18.0, "amenities_score": 9, "is_rera_approved": true, "is_vaastu_compliant": false },
+    "images": [
+      {"label": "Plot View", "url": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200"},
+      {"label": "Surroundings", "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200"},
+      {"label": "Aerial", "url": "https://images.unsplash.com/photo-1443632864897-14973fa006cf?w=1200"}
+    ],
+    "tags": ["Tech Hub", "Metro Connectivity", "Mixed-Use", "High Yield", "Whitefield"]
+  },
+  {
+    "id": 3, "title": "Affordable Residential Plot, Greater Noida", "type": "Residential",
+    "address": "Sector Omega, Greater Noida, Uttar Pradesh 201308",
+    "city": "Delhi", "state": "Uttar Pradesh", "lat": 28.4744, "lng": 77.5040,
+    "price_range": "INR 35 L - 50 L", "price_per_sqft_range": "INR 2,200 - 3,500",
+    "rental_yield_pct": "3.5% - 4.2%", "builder": "Gaur City Developers",
+    "description": "RERA-approved residential plot in planned township. Expressway connectivity, Aqua Metro line nearby. Excellent entry-level investment.",
+    "features": { "city_tier": "Tier1", "state": "Uttar Pradesh", "micro_market": "Greater Noida", "land_use_type": "Residential", "land_area_sqft": 1200, "floor_area_ratio": 1.5, "distance_to_highway_km": 1.0, "distance_to_transit_km": 3.5, "distance_to_city_center_km": 35.0, "amenities_score": 6, "is_rera_approved": true, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "Plot", "url": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200"},
+      {"label": "Township", "url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200"},
+      {"label": "Road View", "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200"}
+    ],
+    "tags": ["Affordable", "RERA", "Expressway", "Metro", "Planned Township"]
+  },
+  {
+    "id": 4, "title": "Luxury Villa Plot, Assagao", "type": "Residential Villa",
+    "address": "Assagao Village, North Goa, Goa 403507",
+    "city": "Goa", "state": "Goa", "lat": 15.5763, "lng": 73.7726,
+    "price_range": "INR 4 Cr - 7 Cr", "price_per_sqft_range": "INR 35,000 - 55,000",
+    "rental_yield_pct": "6.5% - 9.0%", "builder": "Salgaocar Estates",
+    "description": "Prime villa plot in the most sought-after North Goa locale. Walking distance to Vagator Beach. NA converted, ideal for boutique villa rental investment.",
+    "features": { "city_tier": "Tier2", "state": "Goa", "micro_market": "Assagao", "land_use_type": "Residential", "land_area_sqft": 6500, "floor_area_ratio": 0.6, "distance_to_highway_km": 2.5, "distance_to_transit_km": 15.0, "distance_to_city_center_km": 12.0, "amenities_score": 9, "is_rera_approved": true, "is_vaastu_compliant": false },
+    "images": [
+      {"label": "Villa Plot", "url": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200"},
+      {"label": "Beach View", "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200"},
+      {"label": "Landscape", "url": "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=1200"}
+    ],
+    "tags": ["Goa", "Villa Plot", "Beach Proximity", "High Rental Yield", "NA Converted"]
+  },
+  {
+    "id": 5, "title": "Premium Residential Plot, Gomti Nagar", "type": "Residential",
+    "address": "Gomti Nagar Extension, Lucknow, Uttar Pradesh 226010",
+    "city": "Lucknow", "state": "Uttar Pradesh", "lat": 26.8467, "lng": 81.0230,
+    "price_range": "INR 80 L - 1.2 Cr", "price_per_sqft_range": "INR 4,500 - 7,000",
+    "rental_yield_pct": "3.8% - 5.0%", "builder": "Omaxe Ltd",
+    "description": "Premium plot in Lucknow fastest growing residential corridor. Expressway and planned metro connectivity. Strong appreciation outlook.",
+    "features": { "city_tier": "Tier2", "state": "Uttar Pradesh", "micro_market": "Gomti Nagar", "land_use_type": "Residential", "land_area_sqft": 2700, "floor_area_ratio": 1.75, "distance_to_highway_km": 2.0, "distance_to_transit_km": 4.0, "distance_to_city_center_km": 8.0, "amenities_score": 8, "is_rera_approved": true, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "Plot View", "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200"},
+      {"label": "Road", "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200"},
+      {"label": "Neighbourhood", "url": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200"}
+    ],
+    "tags": ["Tier2 Rising", "Lucknow", "RERA", "Vaastu", "Metro Planned"]
+  },
+  {
+    "id": 6, "title": "Commercial Plot, Aerocity", "type": "Commercial",
+    "address": "Delhi Aerocity, Mahipalpur, New Delhi 110037",
+    "city": "Delhi", "state": "Delhi", "lat": 28.5562, "lng": 77.0882,
+    "price_range": "INR 18 Cr - 28 Cr", "price_per_sqft_range": "INR 85,000 - 1,10,000",
+    "rental_yield_pct": "7.5% - 9.5%", "builder": "GMR Group",
+    "description": "Rare commercial land parcel adjacent to IGI Airport. FAR 4.5 permitted. Ideal for hospitality, office, or logistics hub. Highest yield potential in Delhi.",
+    "features": { "city_tier": "Tier1", "state": "Delhi", "micro_market": "Aerocity", "land_use_type": "Commercial", "land_area_sqft": 15000, "floor_area_ratio": 4.5, "distance_to_highway_km": 0.2, "distance_to_transit_km": 0.5, "distance_to_city_center_km": 14.0, "amenities_score": 10, "is_rera_approved": true, "is_vaastu_compliant": false },
+    "images": [
+      {"label": "Aerial", "url": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200"},
+      {"label": "Office View", "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200"},
+      {"label": "Airport Proximity", "url": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200"}
+    ],
+    "tags": ["Airport Zone", "Commercial", "High FAR", "Premium Yield", "Aerocity"]
+  },
+  {
+    "id": 7, "title": "Industrial Land, Pune MIDC", "type": "Industrial",
+    "address": "Chakan MIDC, Pune, Maharashtra 410501",
+    "city": "Pune", "state": "Maharashtra", "lat": 18.7591, "lng": 73.8601,
+    "price_range": "INR 3 Cr - 5.5 Cr", "price_per_sqft_range": "INR 8,000 - 14,000",
+    "rental_yield_pct": "8.0% - 10.5%", "builder": "MIDC / Private",
+    "description": "Industrial land in Chakan auto hub — home to Volkswagen, Bajaj, and Tata Motors. Excellent road and rail freight connectivity. High rental demand.",
+    "features": { "city_tier": "Tier1", "state": "Maharashtra", "micro_market": "PCMC", "land_use_type": "Industrial", "land_area_sqft": 20000, "floor_area_ratio": 1.0, "distance_to_highway_km": 0.8, "distance_to_transit_km": 5.0, "distance_to_city_center_km": 25.0, "amenities_score": 7, "is_rera_approved": false, "is_vaastu_compliant": false },
+    "images": [
+      {"label": "Industrial Zone", "url": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200"},
+      {"label": "Highway Access", "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200"},
+      {"label": "Warehouse", "url": "https://images.unsplash.com/photo-1553413077-190dd305871c?w=1200"}
+    ],
+    "tags": ["MIDC", "Industrial", "Auto Hub", "High Yield", "Freight Corridor"]
+  },
+  {
+    "id": 8, "title": "Agricultural Conversion Plot, Nashik", "type": "Agricultural-NA",
+    "address": "Gangapur Road, Nashik, Maharashtra 422013",
+    "city": "Nashik", "state": "Maharashtra", "lat": 20.0059, "lng": 73.7790,
+    "price_range": "INR 45 L - 80 L", "price_per_sqft_range": "INR 1,800 - 3,200",
+    "rental_yield_pct": "1.2% - 2.0%", "builder": "Individual / NA Converted",
+    "description": "NA-converted agricultural land on Gangapur Road growth corridor. Wine country micro-market. Strong long-term appreciation play — Nashik-Mumbai highway 4km away.",
+    "features": { "city_tier": "Tier3", "state": "Maharashtra", "micro_market": "Gangapur Road", "land_use_type": "Agricultural-NA", "land_area_sqft": 18000, "floor_area_ratio": 0.3, "distance_to_highway_km": 4.0, "distance_to_transit_km": 8.0, "distance_to_city_center_km": 10.0, "amenities_score": 4, "is_rera_approved": false, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "Land", "url": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200"},
+      {"label": "Vineyard View", "url": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1200"},
+      {"label": "Road", "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200"}
+    ],
+    "tags": ["Agricultural", "NA Converted", "Nashik", "Wine Country", "Long-Term Hold"]
+  },
+  {
+    "id": 9, "title": "IT Corridor Plot, HITECH City", "type": "Commercial",
+    "address": "HITECH City, Madhapur, Hyderabad, Telangana 500081",
+    "city": "Hyderabad", "state": "Telangana", "lat": 17.4435, "lng": 78.3772,
+    "price_range": "INR 5 Cr - 9 Cr", "price_per_sqft_range": "INR 55,000 - 85,000",
+    "rental_yield_pct": "6.8% - 9.2%", "builder": "Raheja Developers",
+    "description": "Prime commercial plot in Hyderabad's IT nucleus. FAR 4.0. Metro line outside gate. Surrounded by Google, Amazon, Microsoft campuses.",
+    "features": { "city_tier": "Tier1", "state": "Telangana", "micro_market": "HITECH City", "land_use_type": "Commercial", "land_area_sqft": 7500, "floor_area_ratio": 4.0, "distance_to_highway_km": 1.5, "distance_to_transit_km": 0.1, "distance_to_city_center_km": 11.0, "amenities_score": 10, "is_rera_approved": true, "is_vaastu_compliant": false },
+    "images": [
+      {"label": "Plot", "url": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200"},
+      {"label": "HITECH Skyline", "url": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200"},
+      {"label": "Metro", "url": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200"}
+    ],
+    "tags": ["IT Hub", "Metro", "Commercial", "High FAR", "Hyderabad"]
+  },
+  {
+    "id": 10, "title": "Beachfront Plot, Calangute", "type": "Residential Villa",
+    "address": "Calangute-Candolim Road, North Goa 403516",
+    "city": "Goa", "state": "Goa", "lat": 15.5437, "lng": 73.7552,
+    "price_range": "INR 6 Cr - 11 Cr", "price_per_sqft_range": "INR 40,000 - 65,000",
+    "rental_yield_pct": "8.0% - 12.0%", "builder": "Casa Goa Realty",
+    "description": "Coveted beachfront plot 200m from Calangute Beach. North Goa's busiest tourist belt. NA converted. Peak season rental yields among highest in India.",
+    "features": { "city_tier": "Tier2", "state": "Goa", "micro_market": "Calangute", "land_use_type": "Residential", "land_area_sqft": 9000, "floor_area_ratio": 0.75, "distance_to_highway_km": 1.0, "distance_to_transit_km": 18.0, "distance_to_city_center_km": 15.0, "amenities_score": 10, "is_rera_approved": true, "is_vaastu_compliant": false },
+    "images": [
+      {"label": "Beach", "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200"},
+      {"label": "Plot View", "url": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200"},
+      {"label": "Sunset", "url": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=1200"}
+    ],
+    "tags": ["Beachfront", "Goa", "High Yield", "Tourism", "NA Converted"]
+  },
+  {
+    "id": 11, "title": "Smart City Plot, Bhubaneswar", "type": "Mixed-Use",
+    "address": "Patia, Bhubaneswar, Odisha 751024",
+    "city": "Bhubaneswar", "state": "Odisha", "lat": 20.3581, "lng": 85.8217,
+    "price_range": "INR 60 L - 1.1 Cr", "price_per_sqft_range": "INR 3,500 - 5,500",
+    "rental_yield_pct": "4.0% - 5.5%", "builder": "Utkal Builders",
+    "description": "Mixed-use plot in India's top-ranked Smart City. Adjacent to KIIT University and IT SEZ. Rapid infrastructure development, strong rental demand from students and IT workers.",
+    "features": { "city_tier": "Tier3", "state": "Odisha", "micro_market": "Patia", "land_use_type": "Mixed-Use", "land_area_sqft": 3200, "floor_area_ratio": 2.0, "distance_to_highway_km": 3.0, "distance_to_transit_km": 5.0, "distance_to_city_center_km": 7.0, "amenities_score": 7, "is_rera_approved": true, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "City View", "url": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200"},
+      {"label": "Plot", "url": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200"},
+      {"label": "University Road", "url": "https://images.unsplash.com/photo-1562774053-701939374585?w=1200"}
+    ],
+    "tags": ["Smart City", "Tier3 Rising", "University Zone", "Mixed-Use", "Odisha"]
+  },
+  {
+    "id": 12, "title": "Koregaon Park Commercial Land", "type": "Commercial",
+    "address": "Koregaon Park, Pune, Maharashtra 411001",
+    "city": "Pune", "state": "Maharashtra", "lat": 18.5362, "lng": 73.8937,
+    "price_range": "INR 8 Cr - 14 Cr", "price_per_sqft_range": "INR 55,000 - 90,000",
+    "rental_yield_pct": "5.5% - 7.8%", "builder": "Kumar Properties",
+    "description": "Premium commercial land in Pune's most cosmopolitan address. Surrounded by luxury hotels, restaurants, and IT offices. FAR 3.5 permitted.",
+    "features": { "city_tier": "Tier1", "state": "Maharashtra", "micro_market": "Koregaon Park", "land_use_type": "Commercial", "land_area_sqft": 6000, "floor_area_ratio": 3.5, "distance_to_highway_km": 2.0, "distance_to_transit_km": 2.5, "distance_to_city_center_km": 4.0, "amenities_score": 10, "is_rera_approved": true, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "Area", "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200"},
+      {"label": "Commercial", "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200"},
+      {"label": "Streetview", "url": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200"}
+    ],
+    "tags": ["Koregaon Park", "Commercial", "Pune", "High FAR", "Premium"]
+  },
+  {
+    "id": 13, "title": "Salt Lake IT Plot, Kolkata", "type": "Commercial",
+    "address": "Sector V, Salt Lake, Kolkata, West Bengal 700091",
+    "city": "Kolkata", "state": "West Bengal", "lat": 22.5766, "lng": 88.4197,
+    "price_range": "INR 3 Cr - 6 Cr", "price_per_sqft_range": "INR 28,000 - 48,000",
+    "rental_yield_pct": "6.0% - 8.0%", "builder": "Ambuja Neotia",
+    "description": "IT hub commercial plot in Salt Lake Sector V — East India's silicon valley. Metro connectivity. Strong occupancy from TCS, Wipro, and Cognizant.",
+    "features": { "city_tier": "Tier1", "state": "West Bengal", "micro_market": "Salt Lake", "land_use_type": "Commercial", "land_area_sqft": 8500, "floor_area_ratio": 3.0, "distance_to_highway_km": 3.0, "distance_to_transit_km": 0.8, "distance_to_city_center_km": 12.0, "amenities_score": 9, "is_rera_approved": true, "is_vaastu_compliant": false },
+    "images": [
+      {"label": "IT Park", "url": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200"},
+      {"label": "Metro", "url": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200"},
+      {"label": "Plot", "url": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200"}
+    ],
+    "tags": ["Salt Lake", "IT Hub", "Metro", "Kolkata", "Commercial"]
+  },
+  {
+    "id": 14, "title": "SG Highway Residential Plot, Ahmedabad", "type": "Residential",
+    "address": "Prahlad Nagar, SG Highway, Ahmedabad, Gujarat 380015",
+    "city": "Ahmedabad", "state": "Gujarat", "lat": 23.0225, "lng": 72.5189,
+    "price_range": "INR 1.2 Cr - 2.2 Cr", "price_per_sqft_range": "INR 12,000 - 20,000",
+    "rental_yield_pct": "3.5% - 5.0%", "builder": "Savvy Infrastructure",
+    "description": "Premium residential plot on Ahmedabad's prime SG Highway corridor. Proximity to gift city and metro. High growth micro-market.",
+    "features": { "city_tier": "Tier2", "state": "Gujarat", "micro_market": "Prahlad Nagar", "land_use_type": "Residential", "land_area_sqft": 4000, "floor_area_ratio": 1.8, "distance_to_highway_km": 0.3, "distance_to_transit_km": 2.0, "distance_to_city_center_km": 10.0, "amenities_score": 9, "is_rera_approved": true, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "Highway", "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200"},
+      {"label": "Plot", "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200"},
+      {"label": "Neighbourhood", "url": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200"}
+    ],
+    "tags": ["SG Highway", "Gujarat", "GIFT City Proximity", "RERA", "Vaastu"]
+  },
+  {
+    "id": 15, "title": "Marine Drive Waterfront Plot, Kochi", "type": "Mixed-Use",
+    "address": "Marine Drive, Ernakulam, Kochi, Kerala 682011",
+    "city": "Kochi", "state": "Kerala", "lat": 9.9816, "lng": 76.2999,
+    "price_range": "INR 5 Cr - 9 Cr", "price_per_sqft_range": "INR 35,000 - 65,000",
+    "rental_yield_pct": "5.0% - 7.0%", "builder": "Confident Group",
+    "description": "Rare waterfront land parcel on Kochi's Marine Drive. Mixed-use FAR 3.0. Adjacent to metro station. Tourism and commercial demand drives high yields.",
+    "features": { "city_tier": "Tier2", "state": "Kerala", "micro_market": "Marine Drive", "land_use_type": "Mixed-Use", "land_area_sqft": 7000, "floor_area_ratio": 3.0, "distance_to_highway_km": 1.5, "distance_to_transit_km": 0.1, "distance_to_city_center_km": 1.0, "amenities_score": 10, "is_rera_approved": true, "is_vaastu_compliant": true },
+    "images": [
+      {"label": "Waterfront", "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200"},
+      {"label": "Metro", "url": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200"},
+      {"label": "City", "url": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200"}
+    ],
+    "tags": ["Waterfront", "Kochi", "Metro Adjacent", "Mixed-Use", "High Yield"]
+  }
+]

@@ -1,0 +1,45 @@
+{
+  "numeric_features": [
+    "land_area_sqft",
+    "floor_area_ratio",
+    "distance_to_highway_km",
+    "distance_to_transit_km",
+    "distance_to_city_center_km",
+    "amenities_score",
+    "is_rera_approved",
+    "is_vaastu_compliant",
+    "investment_horizon_yrs"
+  ],
+  "categorical_features": [
+    "city_tier",
+    "land_use_type",
+    "state",
+    "micro_market"
+  ],
+  "all_features": [
+    "land_area_sqft",
+    "floor_area_ratio",
+    "distance_to_highway_km",
+    "distance_to_transit_km",
+    "distance_to_city_center_km",
+    "amenities_score",
+    "is_rera_approved",
+    "is_vaastu_compliant",
+    "investment_horizon_yrs",
+    "city_tier",
+    "land_use_type",
+    "state",
+    "micro_market"
+  ],
+  "price_metrics": {
+    "test_r2": 0.992,
+    "test_mape_pct": 6.08,
+    "test_rmse": 3652.36,
+    "cv_r2_mean": 0.9921,
+    "cv_r2_std": 0.0002
+  },
+  "yield_metrics": {
+    "test_r2": 0.8964,
+    "test_mape_pct": 17.03
+  }
+}
