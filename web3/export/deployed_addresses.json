@@ -1,0 +1,134 @@
+{
+  "network": "hardhat",
+  "chainId": 31337,
+  "deployedAt": "2026-04-18T20:14:39.546Z",
+  "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "contracts": {
+    "MockUSDC": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "PropFiMaster": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+  },
+  "totalProperties": 2135,
+  "statesAndUTs": 36,
+  "sampleProperties": [
+    {
+      "id": 1,
+      "name": "Visakhapatnam Corporate Tower Wing A",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 2,
+      "name": "Royal Visakhapatnam Enclave",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 3,
+      "name": "Visakhapatnam Corporate Tower South",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 4,
+      "name": "Visakhapatnam Retail Complex",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 5,
+      "name": "Visakhapatnam Towers Block C",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 6,
+      "name": "Eco Visakhapatnam Industrial Estate",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 7,
+      "name": "Visakhapatnam Tech Park Tower 1",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 8,
+      "name": "Shree Visakhapatnam Industrial Plot",
+      "city": "Visakhapatnam",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 9,
+      "name": "Vijayawada City Center",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 10,
+      "name": "Blue Vijayawada Tech Park West",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 11,
+      "name": "Vijayawada Town Square Wing A",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 12,
+      "name": "Vijayawada Business Park",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 13,
+      "name": "Vijayawada City Center Extension",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 14,
+      "name": "Vijayawada Industrial Estate",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 15,
+      "name": "New Vijayawada Industrial Plot Phase 2",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 16,
+      "name": "Vijayawada Town Square Phase 2",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 17,
+      "name": "Vijayawada Mall South",
+      "city": "Vijayawada",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 18,
+      "name": "Grand Guntur Residential Plot",
+      "city": "Guntur",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 19,
+      "name": "Modern Guntur Commercial Complex North",
+      "city": "Guntur",
+      "state": "Andhra Pradesh"
+    },
+    {
+      "id": 20,
+      "name": "Green Guntur Office Park",
+      "city": "Guntur",
+      "state": "Andhra Pradesh"
+    }
+  ]
+}
