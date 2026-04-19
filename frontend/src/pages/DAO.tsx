@@ -1,7 +1,39 @@
-import { Vote, Bot, ThumbsUp, ThumbsDown, Scale } from 'lucide-react';
+import { useState } from 'react';
+import { Vote, Bot, ThumbsUp, ThumbsDown, Scale, CheckCircle2 } from 'lucide-react';
 import './DAO.css';
 
 export default function DAO() {
+  const [landlordPct, setLandlordPct] = useState(12);
+  const [tenantPct, setTenantPct] = useState(88);
+  const [hasVoted, setHasVoted] = useState<'landlord' | 'tenant' | null>(null);
+  const [isVoting, setIsVoting] = useState(false);
+  const [voteReceipt, setVoteReceipt] = useState('');
+
+  const handleVote = (side: 'landlord' | 'tenant') => {
+    if (hasVoted || isVoting) return;
+    setIsVoting(true);
+
+    setTimeout(() => {
+      const weight = 1450; // vPROP voting weight
+      const totalVotes = 156800; // simulated total votes
+      const shift = Math.round((weight / totalVotes) * 100 * 10) / 10;
+
+      if (side === 'tenant') {
+        const newTenant = Math.min(99, tenantPct + shift);
+        setTenantPct(Math.round(newTenant * 10) / 10);
+        setLandlordPct(Math.round((100 - newTenant) * 10) / 10);
+      } else {
+        const newLandlord = Math.min(99, landlordPct + shift);
+        setLandlordPct(Math.round(newLandlord * 10) / 10);
+        setTenantPct(Math.round((100 - newLandlord) * 10) / 10);
+      }
+
+      setHasVoted(side);
+      setIsVoting(false);
+      setVoteReceipt(`0x${Math.random().toString(16).substring(2, 10)}...${Math.random().toString(16).substring(2, 8)}`);
+    }, 2000);
+  };
+
   return (
     <div className="dao animate-fade-in">
       <div className="dao-header">
@@ -20,7 +52,9 @@ export default function DAO() {
         <div className="dispute-card card">
           <div className="dispute-header">
             <span className="case-id">Case #PROP-429</span>
-            <span className="status text-danger bg-danger-transparent animate-pulse-live">Active Voting</span>
+            <span className={`status ${hasVoted ? 'text-success bg-success-transparent' : 'text-danger bg-danger-transparent animate-pulse-live'}`}>
+              {hasVoted ? 'Vote Recorded ✓' : 'Active Voting'}
+            </span>
           </div>
           
           <h2>Tenant Eviction Dispute - BKC Plot Commercial</h2>
@@ -43,21 +77,53 @@ export default function DAO() {
           <div className="voting-section">
             <div className="progress-container">
               <div className="progress-labels">
-                <span>Landlord (12%)</span>
-                <span>Tenant (88%)</span>
+                <span>Landlord ({landlordPct}%)</span>
+                <span>Tenant ({tenantPct}%)</span>
               </div>
               <div className="progress-bar">
-                <div className="progress-fill landlord" style={{ width: '12%' }}></div>
-                <div className="progress-fill tenant" style={{ width: '88%' }}></div>
+                <div className="progress-fill landlord" style={{ width: `${landlordPct}%`, transition: 'width 0.8s ease' }}></div>
+                <div className="progress-fill tenant" style={{ width: `${tenantPct}%`, transition: 'width 0.8s ease' }}></div>
               </div>
             </div>
 
+            {hasVoted && voteReceipt && (
+              <div style={{ 
+                background: 'rgba(16,185,129,0.1)', 
+                border: '1px solid rgba(16,185,129,0.3)', 
+                borderRadius: '10px', 
+                padding: '0.65rem 1rem', 
+                marginBottom: '0.75rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '0.78rem'
+              }}>
+                <CheckCircle2 size={16} style={{ color: 'var(--accent-green)', flexShrink: 0 }} />
+                <span style={{ color: 'var(--accent-green)', fontWeight: 700 }}>
+                  Vote cast for {hasVoted === 'tenant' ? 'Tenant' : 'Landlord'} · 1,450 vPROP
+                </span>
+                <span style={{ color: 'var(--text-muted)', marginLeft: 'auto', fontFamily: 'monospace', fontSize: '0.7rem' }}>
+                  TX: {voteReceipt}
+                </span>
+              </div>
+            )}
+
             <div className="vote-actions">
-              <button className="btn btn-secondary vote-btn">
-                <ThumbsDown size={18} /> Support Landlord
+              <button 
+                className="btn btn-secondary vote-btn"
+                onClick={() => handleVote('landlord')}
+                disabled={!!hasVoted || isVoting}
+                style={{ opacity: (hasVoted || isVoting) ? 0.5 : 1, cursor: (hasVoted || isVoting) ? 'not-allowed' : 'pointer' }}
+              >
+                <ThumbsDown size={18} /> {isVoting ? 'Casting...' : hasVoted === 'landlord' ? 'Voted ✓' : 'Support Landlord'}
               </button>
-              <button className="btn btn-primary vote-btn">
-                <ThumbsUp size={18} /> Support Tenant (AI Choice)
+              <button 
+                className="btn btn-primary vote-btn"
+                onClick={() => handleVote('tenant')}
+                disabled={!!hasVoted || isVoting}
+                style={{ opacity: (hasVoted || isVoting) ? 0.5 : 1, cursor: (hasVoted || isVoting) ? 'not-allowed' : 'pointer' }}
+              >
+                <ThumbsUp size={18} /> {isVoting ? 'Casting...' : hasVoted === 'tenant' ? 'Voted ✓' : 'Support Tenant (AI Choice)'}
               </button>
             </div>
           </div>

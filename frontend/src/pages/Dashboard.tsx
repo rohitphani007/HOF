@@ -179,7 +179,7 @@ export default function Dashboard() {
             LIVE · POLYGON AMOY · PROPFI v2.0
           </p>
           <h1 className="dash-title">
-            <span className="text-gradient">Namaste,</span> Land Investor 🇮🇳
+            <span className="text-gradient">Namaste,</span> {localStorage.getItem('propfi_user_name') || 'Land Investor'}
           </h1>
           <p className="dash-sub">
             Tracking <strong style={{ color: 'var(--accent-primary)' }}>{metrics.totalProperties} properties</strong> across{' '}

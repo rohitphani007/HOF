@@ -95,22 +95,32 @@ export default function Sidebar() {
     <>
       <aside className="sidebar">
         {/* Logo */}
-        <Link to="/" className="logo-container" style={{ textDecoration: 'none' }}>
-          <svg className="propfi-logo" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <Link to="/" className="logo-container" style={{ textDecoration: 'none', gap: '0.65rem' }}>
+          <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%"   stopColor="#C8935A" />
-                <stop offset="100%" stopColor="#E8B84A" />
+              <linearGradient id="vibrantCoinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFE259" /> {/* Vibrant Bright Gold */}
+                <stop offset="100%" stopColor="#FFA751" /> {/* Rich Orange Amber */}
+              </linearGradient>
+              <linearGradient id="glossGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="white" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="white" stopOpacity="0" />
               </linearGradient>
             </defs>
-            <rect x="6"  y="20" width="32" height="18" rx="2" fill="url(#logoGrad)" opacity="0.9"/>
-            <rect x="8"  y="10" width="10" height="12" rx="1.5" fill="url(#logoGrad)"/>
-            <rect x="26" y="14" width="10" height="8"  rx="1.5" fill="url(#logoGrad)" opacity="0.8"/>
-            <circle cx="32" cy="10" r="7" stroke="url(#logoGrad)" strokeWidth="2.5" fill="none"/>
-            <text x="32" y="14" textAnchor="middle" fontSize="8" fontWeight="bold" fill="url(#logoGrad)">₹</text>
-            <circle cx="32" cy="10" r="7" stroke="#C8935A" strokeWidth="1.5" fill="none" opacity="0.5"/>
+            {/* The Solid Square Coin */}
+            <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#vibrantCoinGrad)" />
+            {/* Glossy Sheen Overlay */}
+            <rect x="2" y="2" width="60" height="28" rx="16" fill="url(#glossGrad)" />
+            {/* The Skyline Inside (Espresso colored to punch out shapes) */}
+            <rect x="14" y="32" width="10" height="30" rx="1" fill="#110d09" />
+            <rect x="26" y="16" width="12" height="46" rx="1" fill="#110d09" />
+            <rect x="40" y="38" width="10" height="24" rx="1" fill="#110d09" />
+            {/* Windows in Center Tower */}
+            <rect x="29.5" y="22" width="5" height="5" rx="1" fill="#7EB87A" />
+            <rect x="29.5" y="31" width="5" height="5" rx="1" fill="#7EB87A" />
+            <rect x="29.5" y="40" width="5" height="5" rx="1" fill="#7EB87A" />
           </svg>
-          <span className="logo-text">PropFi</span>
+          <span className="logo-text" style={{ fontSize: '1.4rem' }}>PropFi</span>
         </Link>
 
         {/* Nav */}

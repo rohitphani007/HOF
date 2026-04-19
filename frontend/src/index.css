@@ -223,7 +223,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; 
 p { color: var(--text-secondary); line-height: 1.6; }
 
 .text-gradient {
-  background: linear-gradient(135deg, #0A84FF 0%, #BF5AF2 50%, #30D158 100%);
+  background: linear-gradient(135deg, var(--accent-yellow) 0%, var(--accent-primary) 50%, var(--accent-green) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

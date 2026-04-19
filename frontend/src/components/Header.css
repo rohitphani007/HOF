@@ -156,10 +156,12 @@
   border-left: none;
   border-right: none;
   border-bottom: 1px solid var(--glass-border);
-  background: #080A10; /* Pure opaque dark to prevent text overlap glitching behind search bar */
+  background: var(--app-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 [data-theme="light"] .header {
-  background: #E8E8ED;
+  background: var(--app-bg);
 }
 
 .search-bar {

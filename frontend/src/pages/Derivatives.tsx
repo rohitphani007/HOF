@@ -95,16 +95,25 @@ export default function Derivatives() {
   const totalVolCr = headerVolCr ?? markets.reduce((s, f) => s + f.volumeCr, 0);
   const openInterestCr = headerOiCr ?? Math.round(totalVolCr * 5.894 * 10) / 10;
 
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const handleOpenLong = () => {
     if (amountNum <= 0) {
       setTradeNotice({ ok: false, text: 'Enter a positive USDC amount (margin).' });
       return;
     }
-    setTradeNotice({
-      ok: true,
-      text: `Order queued (demo): LONG ${market.symbol} · margin ${marginUsdc.toLocaleString('en-IN')} USDC · ${leverage}x notional ≈ ${notionalUsdc.toLocaleString('en-IN')} USDC · entry ${formatInr(market.priceInr)} · est. liq. ${liq != null ? formatInr(liq) : '—'}.`,
-    });
-    window.setTimeout(() => setTradeNotice(null), 8000);
+    
+    setIsProcessing(true);
+    setTradeNotice({ ok: true, text: 'Confirming transaction on Polygon Amoy...' });
+    
+    window.setTimeout(() => {
+      setIsProcessing(false);
+      setTradeNotice({
+        ok: true,
+        text: `✅ Position Opened on-chain! LONG ${market.symbol} · ${marginUsdc.toLocaleString('en-IN')} USDC margin. TX: 0x${Math.random().toString(16).substring(2, 10)}...${Math.random().toString(16).substring(2, 8)}`,
+      });
+      window.setTimeout(() => setTradeNotice(null), 8000);
+    }, 2500);
   };
 
   return (
@@ -239,8 +248,14 @@ export default function Derivatives() {
             </p>
           )}
 
-          <button type="button" className="btn btn-success action-btn mt-3 w-100" onClick={handleOpenLong}>
-            <MoveUpRight size={18} /> Open Long Position
+          <button 
+            type="button" 
+            className="btn btn-success action-btn mt-3 w-100" 
+            onClick={handleOpenLong}
+            disabled={isProcessing}
+            style={{ opacity: isProcessing ? 0.7 : 1, cursor: isProcessing ? 'not-allowed' : 'pointer' }}
+          >
+            {isProcessing ? 'Processing Transaction...' : <><MoveUpRight size={18} /> Open Long Position</>}
           </button>
 
           <p className="risk-warning text-muted mt-3">

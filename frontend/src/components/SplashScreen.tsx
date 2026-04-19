@@ -100,29 +100,25 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
 
         {/* ── Animated SVG Logo ── */}
         <div className={`splash-logo-wrap ${step >= 1 ? 'logo-visible' : ''}`}>
-          <svg className="splash-logo-svg" viewBox="0 0 64 64" fill="none" style={{width: 96, height: 96}}>
+          <svg width="112" height="112" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ boxShadow: '0 12px 32px rgba(200, 147, 90, 0.4)', borderRadius: '16px' }}>
             <defs>
-              <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%"  stopColor="#C8935A" />
-                <stop offset="100%" stopColor="#E8B84A" />
+              <linearGradient id="vibrantCoinGradSplash" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFE259" /> {/* Vibrant Bright Gold */}
+                <stop offset="100%" stopColor="#FFA751" /> {/* Rich Orange Amber */}
               </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
+              <linearGradient id="glossGradSplash" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="white" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="white" stopOpacity="0" />
+              </linearGradient>
             </defs>
-            {/* Base platform */}
-            <rect x="8" y="28" width="48" height="28" rx="4" fill="url(#sg1)" opacity="0.92" className="s-base" filter="url(#glow)" />
-            {/* Left tower */}
-            <rect x="10" y="14" width="16" height="16" rx="3" fill="url(#sg1)" className="s-tl" />
-            {/* Right tower */}
-            <rect x="38" y="20" width="14" height="10" rx="2.5" fill="url(#sg1)" opacity="0.8" className="s-tr" />
-            {/* Coin ring */}
-            <circle cx="48" cy="13" r="10" stroke="url(#sg1)" strokeWidth="3" fill="rgba(30,18,8,0.6)" className="s-coin" />
-            {/* INR symbol */}
-            <text x="48" y="17.5" textAnchor="middle" fontSize="10" fontWeight="900" fill="#E8B84A" className="s-coin">₹</text>
-            {/* Pulse ring */}
-            <circle cx="48" cy="13" r="10" stroke="#C8935A" strokeWidth="1.5" fill="none" opacity="0.5" className="s-pulse" />
+            <rect x="0" y="0" width="64" height="64" rx="16" fill="url(#vibrantCoinGradSplash)" />
+            <rect x="0" y="0" width="64" height="30" rx="16" fill="url(#glossGradSplash)" />
+            <rect x="14" y="32" width="10" height="32" rx="1" fill="#110d09" />
+            <rect x="26" y="16" width="12" height="48" rx="1" fill="#110d09" />
+            <rect x="40" y="38" width="10" height="26" rx="1" fill="#110d09" />
+            <rect x="29.5" y="22" width="5" height="5" rx="1" fill="#7EB87A" />
+            <rect x="29.5" y="31" width="5" height="5" rx="1" fill="#7EB87A" />
+            <rect x="29.5" y="40" width="5" height="5" rx="1" fill="#7EB87A" />
           </svg>
         </div>
 
