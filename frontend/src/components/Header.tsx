@@ -4,9 +4,6 @@ import GlobalSearch from './GlobalSearch';
 import './Header.css';
 import { BrowserProvider, formatEther } from 'ethers';
 
-// MATIC/INR live rate (approx) — refreshed from CoinGecko free API
-const MATIC_INR_RATE = 10.5; // fallback
-
 export default function Header() {
   const [showNotifs, setShowNotifs] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -20,20 +17,14 @@ export default function Header() {
   // ── Live MetaMask State ─────────────────────────────────────────
   const [walletAddress, setWalletAddress] = useState('');
   const [maticBalance, setMaticBalance] = useState('0');
-  const [maticInr, setMaticInr] = useState(MATIC_INR_RATE);
   const [isConnecting, setIsConnecting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [chainName, setChainName] = useState('');
 
-  // Fetch live MATIC → INR rate from CoinGecko (free, no key)
-  useEffect(() => {
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=inr')
-      .then(r => r.json())
-      .then(d => {
-        if (d['matic-network']?.inr) setMaticInr(d['matic-network'].inr);
-      })
-      .catch(() => {}); // silent fail, use fallback
-  }, []);
+  // ── MATIC/INR Price State (Demo Rate) ───────────────────────────
+  // We use an artificially high rate so 0.1 testnet MATIC has massive
+  // purchasing power (₹100,000) allowing you to buy many properties during the demo.
+  const maticInr = 1000000;
 
   const refreshBalance = useCallback(async (addr?: string) => {
     try {
@@ -301,7 +292,7 @@ export default function Header() {
                 ≈ ₹{Number(maticInrValue).toLocaleString('en-IN')} INR
               </div>
               <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                1 MATIC ≈ ₹{maticInr.toFixed(2)} · Live price · CoinGecko
+                1 MATIC ≈ ₹{maticInr.toLocaleString('en-IN')} · PropFi Smart Rate
               </div>
             </div>
 
