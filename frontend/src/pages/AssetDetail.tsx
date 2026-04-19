@@ -63,7 +63,7 @@ export default function AssetDetail() {
   const fakeTxHash = () => '0x' + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
 
   // ── MATIC/INR Price State ──
-  const [maticPriceINR, setMaticPriceINR] = useState<number>(22); // fallback ₹22/MATIC
+  const [maticPriceINR, setMaticPriceINR] = useState<number>(10.5); // fallback — CoinGecko live rate
   const [maticLoaded, setMaticLoaded] = useState(false);
 
   // Fetch real MATIC/INR price on mount

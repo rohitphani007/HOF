@@ -280,7 +280,7 @@ export default function Header() {
                     <Copy size={12} />
                   </button>
                   {copied && <span style={{ fontSize: '0.7rem', color: 'var(--accent-green)' }}>Copied!</span>}
-                  <a href={`https://polygonscan.com/address/${walletAddress}`} target="_blank" rel="noopener noreferrer"
+                  <a href={`https://amoy.polygonscan.com/address/${walletAddress}`} target="_blank" rel="noopener noreferrer"
                     style={{ color: 'var(--accent-primary)', display: 'flex' }}>
                     <ExternalLink size={12} />
                   </a>
@@ -328,7 +328,7 @@ export default function Header() {
 
             <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '1rem', display: 'flex', gap: '0.5rem' }}>
               <a
-                href={`https://polygonscan.com/address/${walletAddress}`}
+                href={`https://amoy.polygonscan.com/address/${walletAddress}`}
                 target="_blank" rel="noopener noreferrer"
                 className="btn btn-secondary"
                 style={{ flex: 1, textDecoration: 'none', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}
