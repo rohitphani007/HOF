@@ -55,9 +55,12 @@ export default function Derivatives() {
           </div>
         </div>
 
-        <div className="active-trade card position-relative">
-          <div className="badge-corner highlight-badge">AMM Liquidity</div>
-          <h3>Long MUM-IDX-DEC</h3>
+        <div className="active-trade card">
+          {/* Badge inside card — no clipping */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+            <h3 style={{ margin: 0 }}>Long MUM-IDX-DEC</h3>
+            <span className="highlight-badge">AMM Liquidity</span>
+          </div>
           
           <div className="leverage-selector">
             <label>Leverage up to 10x</label>

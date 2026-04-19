@@ -1,109 +1,187 @@
-import { useState, useEffect } from 'react';
-import { Home, LineChart, PieChart, ArrowRightLeft, Landmark } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { Home, LineChart, PieChart, ArrowRightLeft, Landmark, ChevronRight } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import AccountPanel from './AccountPanel';
 import './Sidebar.css';
 
+const HEADER_HEIGHT = 68;
+
+const navItems = [
+  { name: 'Dashboard',   icon: Home,           id: 'dashboard',   href: null },
+  { name: 'Market',      icon: LineChart,       id: 'market',      href: '/market' },
+  { name: 'Portfolio',   icon: PieChart,        id: 'portfolio',   href: null },
+  { name: 'Derivatives', icon: ArrowRightLeft,  id: 'derivatives', href: null },
+  { name: 'Governance',  icon: Landmark,        id: 'dao',         href: null },
+];
+
+function scrollToSection(id: string): boolean {
+  const el = document.getElementById(id);
+  if (!el) return false;
+  const top = el.getBoundingClientRect().top + window.scrollY - HEADER_HEIGHT - 8;
+  window.scrollTo({ top, behavior: 'smooth' });
+  return true;
+}
+
+function getActiveSection(): string {
+  const midY = window.scrollY + window.innerHeight * 0.35;
+  let active = navItems[0].id;
+  for (const item of navItems) {
+    const el = document.getElementById(item.id);
+    if (!el) continue;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    if (top <= midY) active = item.id;
+  }
+  return active;
+}
+
+/** Read user display info from localStorage */
+function readUserInfo() {
+  const storedName  = localStorage.getItem('propfi_user_name')  || '';
+  const storedEmail = localStorage.getItem('propfi_user_email') || '';
+  const walletAddr  = localStorage.getItem('propfi_wallet')     ||
+                      localStorage.getItem('walletAddress')      || '';
+  const displayName  = storedName || (walletAddr ? `${walletAddr.slice(0,6)}…${walletAddr.slice(-4)}` : 'Guest');
+  const avatarLetter = displayName.charAt(0).toUpperCase() || 'G';
+  const idSource     = storedEmail || walletAddr || 'guest';
+  const userIdNum    = idSource.split('').reduce((a: number, c: string) => a + c.charCodeAt(0), 0) % 9000 + 1000;
+  return { displayName, avatarLetter, userId: `PRF-${userIdNum}` };
+}
+
 export default function Sidebar() {
-  const [activeId, setActiveId] = useState('dashboard');
-  const location = useLocation();
+  const [activeId,      setActiveId]      = useState('dashboard');
+  const [showAccount,   setShowAccount]   = useState(false);
+  const [userInfo,      setUserInfo]      = useState(() => readUserInfo());
+  const location  = useLocation();
+  const navigate  = useNavigate();
 
-  const navItems = [
-    { name: 'Dashboard', icon: Home, id: 'dashboard' },
-    { name: 'Market', icon: LineChart, id: 'market' },
-    { name: 'Portfolio', icon: PieChart, id: 'portfolio' },
-    { name: 'Derivatives', icon: ArrowRightLeft, id: 'derivatives' },
-    { name: 'Governance', icon: Landmark, id: 'dao' },
-  ];
+  // Re-read name whenever localStorage changes (after AccountPanel saves)
+  useEffect(() => {
+    const sync = () => setUserInfo(readUserInfo());
+    window.addEventListener('storage', sync);
+    return () => window.removeEventListener('storage', sync);
+  }, []);
 
+  // Scroll tracking
+  const handleScroll = useCallback(() => { setActiveId(getActiveSection()); }, []);
   useEffect(() => {
     if (location.pathname !== '/') return;
-    
-    // Automatically flag active section based on scroll position
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveId(entry.target.id);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: "-20% 0px -40% 0px" });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [location.pathname, handleScroll]);
 
-    const timeout = setTimeout(() => {
-      document.querySelectorAll('.nav-section').forEach(el => observer.observe(el));
-    }, 500);
-
-    return () => {
-      clearTimeout(timeout);
-      observer.disconnect();
-    };
-  }, [location.pathname]);
-
-  // Jump to hash if returning from /asset view
-  useEffect(() => {
-    if (location.pathname === '/' && location.hash) {
-      setTimeout(() => {
-        document.querySelector(location.hash)?.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
+  // Navigate home → then scroll
+  const goHome = useCallback((sectionId: string) => {
+    document.body.classList.remove('sidebar-open');
+    setActiveId(sectionId);
+    if (location.pathname === '/') {
+      scrollToSection(sectionId);
+    } else {
+      navigate('/');
+      setTimeout(() => scrollToSection(sectionId), 300);
     }
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, navigate]);
+
+  const handleLogout = () => {
+    setShowAccount(false);
+    localStorage.removeItem('propfi_auth');
+    localStorage.removeItem('propfi_wallet');
+    localStorage.removeItem('propfi_user_name');
+    localStorage.removeItem('propfi_user_email');
+    window.location.reload();
+  };
 
   return (
-    <aside className="sidebar">
-      <Link to="/" className="logo-container" style={{ textDecoration: 'none' }}>
-        {/* Animated SVG Logo */}
-        <svg className="propfi-logo" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3B82F6" />
-              <stop offset="100%" stopColor="#00FFA3" />
-            </linearGradient>
-          </defs>
-          {/* Base building */}
-          <rect className="logo-base" x="6" y="20" width="32" height="18" rx="2" fill="url(#logoGrad)" opacity="0.9"/>
-          {/* Tower left */}
-          <rect className="logo-tower-l" x="8"  y="10" width="10" height="12" rx="1.5" fill="url(#logoGrad)"/>
-          {/* Tower right */}
-          <rect className="logo-tower-r" x="26" y="14" width="10" height="8"  rx="1.5" fill="url(#logoGrad)" opacity="0.8"/>
-          {/* Coin ring */}
-          <circle className="logo-coin" cx="32" cy="10" r="7" stroke="url(#logoGrad)" strokeWidth="2.5" fill="none"/>
-          <text x="32" y="14" textAnchor="middle" fontSize="8" fontWeight="bold" fill="url(#logoGrad)">₹</text>
-          {/* Glow pulse ring */}
-          <circle className="logo-pulse" cx="32" cy="10" r="7" stroke="#3B82F6" strokeWidth="1.5" fill="none" opacity="0.5"/>
-        </svg>
-        <span className="logo-text">PropFi</span>
-      </Link>
+    <>
+      <aside className="sidebar">
+        {/* Logo */}
+        <Link to="/" className="logo-container" style={{ textDecoration: 'none' }}>
+          <svg className="propfi-logo" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stopColor="#C8935A" />
+                <stop offset="100%" stopColor="#E8B84A" />
+              </linearGradient>
+            </defs>
+            <rect x="6"  y="20" width="32" height="18" rx="2" fill="url(#logoGrad)" opacity="0.9"/>
+            <rect x="8"  y="10" width="10" height="12" rx="1.5" fill="url(#logoGrad)"/>
+            <rect x="26" y="14" width="10" height="8"  rx="1.5" fill="url(#logoGrad)" opacity="0.8"/>
+            <circle cx="32" cy="10" r="7" stroke="url(#logoGrad)" strokeWidth="2.5" fill="none"/>
+            <text x="32" y="14" textAnchor="middle" fontSize="8" fontWeight="bold" fill="url(#logoGrad)">₹</text>
+            <circle cx="32" cy="10" r="7" stroke="#C8935A" strokeWidth="1.5" fill="none" opacity="0.5"/>
+          </svg>
+          <span className="logo-text">PropFi</span>
+        </Link>
 
-      <nav className="nav-menu">
-        {navItems.map((item) => {
-          const isActive = location.pathname === '/' ? activeId === item.id : false;
-          return (
-            <Link
-              key={item.id}
-              to={`/#${item.id}`}
-              onClick={(e) => {
-                document.body.classList.remove('sidebar-open');
-                if (location.pathname === '/') {
-                  e.preventDefault();
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className={`nav-item ${isActive ? 'active' : ''}`}
-            >
-              <item.icon size={20} />
-              <span>{item.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
+        {/* Nav */}
+        <nav className="nav-menu">
+          {navItems.map((item) => {
+            const isActive = item.href
+              ? location.pathname === item.href
+              : location.pathname === '/' && activeId === item.id;
 
-      <div className="sidebar-footer">
-        <div className="user-profile card" style={{padding: '0.75rem', background: 'transparent', border: 'none', boxShadow: 'none'}}>
-          <div className="avatar" style={{background: 'var(--accent-purple)', fontSize: '0.9rem'}}>R</div>
-          <div className="user-info">
-            <span className="name" style={{fontSize: '0.85rem'}}>Rohit</span>
-            <span className="id" style={{fontSize: '0.7rem'}}>ID: PRF-8842</span>
-          </div>
+            if (item.href) {
+              return (
+                <Link key={item.id} to={item.href}
+                  onClick={() => document.body.classList.remove('sidebar-open')}
+                  className={`nav-item ${isActive ? 'active' : ''}`}
+                >
+                  <item.icon size={20} />
+                  <span>{item.name}</span>
+                </Link>
+              );
+            }
+            return (
+              <button key={item.id}
+                onClick={() => goHome(item.id)}
+                className={`nav-item ${isActive ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', width: '100%', textAlign: 'left' }}
+              >
+                <item.icon size={20} />
+                <span>{item.name}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* User profile — click to open AccountPanel */}
+        <div className="sidebar-footer">
+          <button
+            onClick={() => setShowAccount(true)}
+            style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: '0.875rem',
+              padding: '0.875rem', borderRadius: 'var(--radius-lg)',
+              background: 'rgba(200,147,90,0.07)', border: '1px solid rgba(200,147,90,0.16)',
+              cursor: 'pointer', transition: 'background 0.2s, border-color 0.2s', textAlign: 'left',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(200,147,90,0.14)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,147,90,0.3)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(200,147,90,0.07)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(200,147,90,0.16)'; }}
+          >
+            <div style={{
+              width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+              background: 'linear-gradient(135deg, #C8935A, #E8B84A)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontWeight: 800, fontSize: '1rem', color: '#110d09',
+            }}>
+              {userInfo.avatarLetter}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
+              <span style={{ fontWeight: 600, fontSize: '0.85rem', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {userInfo.displayName}
+              </span>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{userInfo.userId}</span>
+            </div>
+            <ChevronRight size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+          </button>
         </div>
-      </div>
-    </aside>
+      </aside>
+
+      {/* Account panel slide-in */}
+      <AccountPanel
+        open={showAccount}
+        onClose={() => setShowAccount(false)}
+        onLogout={handleLogout}
+      />
+    </>
   );
 }

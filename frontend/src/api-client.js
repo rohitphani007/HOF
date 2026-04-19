@@ -6,6 +6,9 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
+import { ethers } from 'ethers';
+import { USDC_ADDRESS, USDC_ABI, PROPFI_MASTER_ADDRESS, PROPFI_MASTER_ABI } from './contracts/constants';
+
 const BASE_URL = 'http://localhost:3001/api';
 const WS_URL   = 'ws://localhost:3001';
 
@@ -29,12 +32,18 @@ async function request(path, options = {}) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Get all properties. Optional filters: { city, minYield, maxRisk, type }
- * @returns {Promise<Array>} list of property objects
+ * Get properties with filters, sort, pagination.
+ * Returns { data: [...], total, page, limit, totalPages, hasMore }
+ * @param {{ city, minYield, maxRisk, type, search, sort, page, limit }} filters
  */
-export const getProperties = (filters = {}) => {
-  const params = new URLSearchParams(filters).toString();
-  return request(`/properties${params ? '?' + params : ''}`);
+export const getProperties = async (filters = {}) => {
+  // Remove empty values
+  const clean = Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== '' && v != null));
+  const params = new URLSearchParams(clean).toString();
+  const res = await request(`/properties${params ? '?' + params : ''}`);
+  // Handle both old array format and new paginated format
+  if (Array.isArray(res)) return { data: res, total: res.length, page: 1, totalPages: 1, hasMore: false };
+  return res;
 };
 
 /**
@@ -42,6 +51,11 @@ export const getProperties = (filters = {}) => {
  * @param {string} propertyId
  */
 export const getProperty = (propertyId) => request(`/properties/${propertyId}`);
+
+/**
+ * Get list of all cities with property counts
+ */
+export const getCities = () => request('/cities');
 
 // ══════════════════════════════════════════════════════════════════════════════
 //  AI / PRICING
@@ -73,12 +87,46 @@ export const getTransactions = (limit = 10) =>
   request(`/blockchain/transactions?limit=${limit}`);
 
 /**
- * Buy property tokens
+ * Buy property tokens using MetaMask instead of mock server.
  * @param {{ propertyId, tokens, walletAddress }} payload
  * @returns {{ txHash, status, tokensReceived, totalPaid, gasFee, blockNumber }}
  */
-export const buyTokens = (payload) =>
-  request('/blockchain/buy', { method: 'POST', body: JSON.stringify(payload) });
+export const buyTokens = async (payload) => {
+  if (!window.ethereum) throw new Error('MetaMask is required to buy tokens.');
+  
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  await provider.send("eth_requestAccounts", []);
+  const signer = await provider.getSigner();
+  
+  const usdc = new ethers.Contract(USDC_ADDRESS, USDC_ABI, signer);
+  const propfi = new ethers.Contract(PROPFI_MASTER_ADDRESS, PROPFI_MASTER_ABI, signer);
+
+  // We fetch the property locally to find the token price
+  const property = await getProperty(payload.propertyId);
+  const totalCostInDollars = property.tokenPrice * payload.tokens;
+  const totalCost = ethers.parseUnits(totalCostInDollars.toString(), 6); // Mock USDC is 6 decimals
+  
+  // TX 1: Approve
+  console.log('Sending Approve TX for', totalCost.toString(), 'USDC...');
+  const approveTx = await usdc.approve(PROPFI_MASTER_ADDRESS, totalCost);
+  await approveTx.wait();
+  
+  // TX 2: Buy Token
+  console.log('Sending Buy TX...');
+  // The propertyId from the mock server is something like 'prop_001', the smart contract expects uint256.
+  const numericId = parseInt(payload.propertyId.replace('prop_', '').replace('land_', ''), 10) || parseInt(payload.propertyId, 10);
+  const buyTx = await propfi.buyFractionalToken(numericId, payload.tokens);
+  const receipt = await buyTx.wait();
+
+  return {
+    txHash: buyTx.hash,
+    status: 'confirmed',
+    tokensReceived: payload.tokens,
+    totalPaid: totalCostInDollars,
+    gasFee: 0,
+    blockNumber: receipt.blockNumber
+  };
+};
 
 /**
  * Sell property tokens

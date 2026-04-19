@@ -1,41 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* ══════════════════════════════════════════
-   TOKENS — DARK
+   TOKENS — DARK  (Warm Beige / Espresso)
 ══════════════════════════════════════════ */
 :root {
-  --app-bg:           #040508;
+  /* Deep espresso background — warm, not cold */
+  --app-bg:           #110d09;
   --bg-base:          transparent;
   --bg-noise:         url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 
-  --glass-bg:         rgba(28, 28, 32, 0.35); /* more transparent for background live particles */
-  --glass-bg-light:   rgba(44, 44, 48, 0.25);
-  --glass-border:     rgba(255,255,255,0.08);
-  --glass-border-top: rgba(255,255,255,0.15);
-  --glass-shadow:     0 8px 32px rgba(0,0,0,0.55);
-  --glass-inset:      inset 0 1px 0 rgba(255,255,255,0.06);
+  /* Warm glass surfaces — slightly amber-tinted */
+  --glass-bg:         rgba(38, 27, 18, 0.40);
+  --glass-bg-light:   rgba(55, 40, 25, 0.30);
+  --glass-border:     rgba(200, 147, 90, 0.14);
+  --glass-border-top: rgba(200, 147, 90, 0.22);
+  --glass-shadow:     0 8px 32px rgba(0,0,0,0.60);
+  --glass-inset:      inset 0 1px 0 rgba(200, 147, 90, 0.08);
 
-  --text-primary:   #F5F5F7;
-  --text-secondary: #98989F;
-  --text-muted:     #636366;
+  /* Warm white — slightly cream, never cold */
+  --text-primary:   #F2EAE0;
+  --text-secondary: #B8A898;
+  --text-muted:     #7A6A5A;
 
-  --accent-blue:   #0A84FF;
-  --accent-green:  #30D158;
-  --accent-yellow: #FFD60A;
-  --accent-purple: #BF5AF2;
-  --accent-orange: #FF9F0A;
-  --accent-red:    #FF453A;
+  /* ── Accent palette — everything warm ── */
+  --accent-primary:   #C8935A;   /* Amber-brown — main CTA     */
+  --accent-blue:      #C8935A;   /* alias — no cold blues      */
+  --accent-green:     #7EB87A;   /* Sage green — success       */
+  --accent-yellow:    #E8B84A;   /* Warm gold                  */
+  --accent-purple:    #A07858;   /* Warm sienna-brown          */
+  --accent-orange:    #D4784A;   /* Terracotta                 */
+  --accent-red:       #C85A4A;   /* Muted brick red            */
 
-  --accent-primary:             var(--accent-blue);
-  --accent-primary-hover:       #0066CC;
-  --accent-success:             var(--accent-green);
-  --accent-success-transparent: rgba(48,209,88,0.15);
-  --accent-danger:              var(--accent-red);
-  --accent-danger-transparent:  rgba(255,69,58,0.15);
+  --accent-primary-hover:       #B07840;
+  --accent-success:             #7EB87A;
+  --accent-success-transparent: rgba(126, 184, 122, 0.15);
+  --accent-danger:              #C85A4A;
+  --accent-danger-transparent:  rgba(200, 90, 74, 0.15);
 
   --border-subtle:    var(--glass-border);
-  --border-highlight: rgba(255,255,255,0.16);
-  --shadow-glow:      0 0 20px rgba(10,132,255,0.2);
+  --border-highlight: rgba(200, 147, 90, 0.22);
+  --shadow-glow:      0 0 24px rgba(200, 147, 90, 0.22);
 
   --radius-sm:  8px;
   --radius-md:  12px;
@@ -45,64 +49,72 @@
 }
 
 /* ══════════════════════════════════════════
-   TOKENS — LIGHT
+   TOKENS — LIGHT  (Warm Parchment / Sand)
 ══════════════════════════════════════════ */
 [data-theme="light"] {
-  --app-bg: #E8E8ED;
-  --bg-base: transparent;
+  /* Warm parchment / linen background */
+  --app-bg:  #F5EFE6;
+  --bg-base: rgba(120, 80, 40, 0.04);
 
-  --glass-bg:         rgba(255,255,255,0.7);
-  --glass-bg-light:   rgba(255,255,255,0.6);
-  --glass-border:     rgba(255,255,255,0.7);
-  --glass-border-top: rgba(255,255,255,0.85);
-  --glass-shadow:     0 8px 32px rgba(0,0,0,0.08);
-  --glass-inset:      inset 0 1px 0 rgba(255,255,255,0.8);
+  --glass-bg:         rgba(255, 250, 243, 0.92);
+  --glass-bg-light:   rgba(255, 248, 238, 0.85);
+  --glass-border:     rgba(160, 110, 60, 0.14);
+  --glass-border-top: rgba(160, 110, 60, 0.10);
+  --glass-shadow:     0 4px 24px rgba(100, 60, 20, 0.12);
+  --glass-inset:      inset 0 1px 0 rgba(255,255,255,0.85);
 
-  --text-primary:   #1C1C1E;
-  --text-secondary: #3A3A3C;
-  --text-muted:     #8E8E93;
+  --text-primary:   #2A1F14;
+  --text-secondary: #4A3828;
+  --text-muted:     #8A7060;
 
-  --accent-blue:   #007AFF;
-  --accent-green:  #34C759;
-  --accent-yellow: #FFCC00;
-  --accent-purple: #AF52DE;
-  --accent-orange: #FF9500;
-  --accent-red:    #FF3B30;
+  /* All warm, no cold blues */
+  --accent-primary:   #A0622A;
+  --accent-blue:      #A0622A;
+  --accent-green:     #5A9A56;
+  --accent-yellow:    #C8980A;
+  --accent-purple:    #7A5038;
+  --accent-orange:    #B85A2A;
+  --accent-red:       #A83A2A;
 
-  --accent-primary:             var(--accent-blue);
-  --accent-success:             var(--accent-green);
-  --accent-success-transparent: rgba(52,199,89,0.15);
-  --accent-danger:              var(--accent-red);
-  --accent-danger-transparent:  rgba(255,59,48,0.15);
-  --border-subtle:    rgba(0,0,0,0.08);
-  --border-highlight: rgba(0,0,0,0.12);
-  --shadow-glow:      0 0 20px rgba(0,122,255,0.15);
+  --accent-primary-hover:       #8C5220;
+  --accent-success:             #5A9A56;
+  --accent-success-transparent: rgba(90, 154, 86, 0.12);
+  --accent-danger:              #A83A2A;
+  --accent-danger-transparent:  rgba(168, 58, 42, 0.12);
+  --border-subtle:    rgba(160, 110, 60, 0.14);
+  --border-highlight: rgba(160, 110, 60, 0.20);
+  --shadow-glow:      0 0 20px rgba(160, 98, 42, 0.14);
 }
 
 [data-theme="light"] body {
   background:
-    radial-gradient(ellipse at 20% 10%, rgba(175,82,222,0.18) 0%, transparent 45%),
-    radial-gradient(ellipse at 80% 80%, rgba(0,122,255,0.15) 0%, transparent 45%),
-    #DCDCE4;
+    radial-gradient(ellipse at 20% 10%, rgba(200, 147, 90, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 80%, rgba(160, 98, 42, 0.08) 0%, transparent 45%),
+    #F5EFE6;
 }
 
 [data-theme="light"] .glass-panel,
-[data-theme="light"] .card { background: var(--glass-bg); }
-[data-theme="light"] .notifications-dropdown { background: rgba(255,255,255,0.88); }
-[data-theme="light"] .cursor-glow { background: radial-gradient(circle, rgba(0,122,255,0.12) 0%, transparent 70%); }
+[data-theme="light"] .card { background: rgba(255,250,243,0.92); border-color: rgba(160,110,60,0.12); }
+[data-theme="light"] .notifications-dropdown { background: rgba(255,250,243,0.98); }
+[data-theme="light"] .cursor-glow { background: radial-gradient(circle, rgba(200,147,90,0.10) 0%, transparent 70%); }
 
 /* ══════════════════════════════════════════
    RESET + BASE
 ══════════════════════════════════════════ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Ensure anchor-scroll and programmatic scrollIntoView clear the sticky header */
+.nav-section {
+  scroll-margin-top: 76px; /* header height (≈68px) + 8px breathing room */
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--app-bg);
   background-image:
-    radial-gradient(ellipse at 15% 20%, rgba(191,90,242,0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 75%, rgba(10,132,255,0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(48,209,88,0.05) 0%, transparent 55%);
+    radial-gradient(ellipse at 15% 20%, rgba(200, 120, 60, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 75%, rgba(160, 90, 40, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(232, 184, 74, 0.06) 0%, transparent 55%);
   background-attachment: fixed;
   color: var(--text-primary);
   min-height: 100vh;
