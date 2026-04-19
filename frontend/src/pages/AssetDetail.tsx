@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Share2, Info, MapPin, BrainCircuit, Loader2, CheckCircle2, ExternalLink } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from 'react';
-import { BrowserProvider, parseEther } from 'ethers';
+import { BrowserProvider, parseEther, formatEther } from 'ethers';
 // @ts-ignore
 import * as PropFiAPI from '../api-client';
 import { usePortfolio } from '../context/PortfolioContext';
@@ -62,6 +62,32 @@ export default function AssetDetail() {
   /** Generate a realistic-looking tx hash without crypto library */
   const fakeTxHash = () => '0x' + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
 
+  // ── MATIC/INR Price State ──
+  const [maticPriceINR, setMaticPriceINR] = useState<number>(22); // fallback ₹22/MATIC
+  const [maticLoaded, setMaticLoaded] = useState(false);
+
+  // Fetch real MATIC/INR price on mount
+  useEffect(() => {
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=inr')
+      .then(r => r.json())
+      .then(data => {
+        const price = data?.['matic-network']?.inr;
+        if (price && price > 0) {
+          setMaticPriceINR(price);
+          console.log(`PropFi: MATIC/INR = ₹${price}`);
+        }
+        setMaticLoaded(true);
+      })
+      .catch(() => {
+        console.info('PropFi: CoinGecko unavailable, using fallback ₹22/MATIC');
+        setMaticLoaded(true);
+      });
+  }, []);
+
+  // Convert INR amount to MATIC
+  const maticAmount = payAmount > 0 ? payAmount / maticPriceINR : 0;
+  const maticFormatted = maticAmount.toFixed(6);
+
   /** Record purchase and mark done */
   const finalizePurchase = (hash: string) => {
     setTxHash(hash);
@@ -79,7 +105,7 @@ export default function AssetDetail() {
     setTxStatus('done');
   };
 
-  /** Demo fallback — simulates a 2s blockchain confirmation */
+  /** Demo fallback — ONLY when MetaMask is not installed */
   const runDemoTransaction = async () => {
     await new Promise(r => setTimeout(r, 2000));
     finalizePurchase(fakeTxHash());
@@ -88,7 +114,7 @@ export default function AssetDetail() {
   const POLYGON_AMOY_PARAMS = {
     chainId: '0x13882', // 80002
     chainName: 'Polygon Amoy Testnet',
-    nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+    nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
     rpcUrls: ['https://rpc-amoy.polygon.technology'],
     blockExplorerUrls: ['https://amoy.polygonscan.com'],
   };
@@ -97,64 +123,100 @@ export default function AssetDetail() {
     if (!asset) return;
     setTxStatus('pending');
 
-    // ── No MetaMask installed → always use demo flow ──
+    // ── No MetaMask installed → demo flow only ──
     if (typeof window.ethereum === 'undefined') {
+      console.info('PropFi: MetaMask not detected, running demo');
       await runDemoTransaction();
       return;
     }
 
     try {
+      // Step 1: Request account access (OPENS MetaMask popup)
       const provider = new BrowserProvider(window.ethereum);
+      const accounts = await provider.send('eth_requestAccounts', []);
+      console.log('PropFi: Connected wallet:', accounts[0]);
 
-      // Step 1: Request account access (opens MetaMask if not connected)
-      await provider.send('eth_requestAccounts', []);
-
-      // Step 2: Switch to Polygon Amoy (adds network if not present)
+      // Step 2: Switch to Polygon Amoy
       try {
         await provider.send('wallet_switchEthereumChain', [{ chainId: '0x13882' }]);
       } catch (switchErr: any) {
         if (switchErr?.code === 4902) {
-          // Network not added yet — add it
           await provider.send('wallet_addEthereumChain', [POLYGON_AMOY_PARAMS]);
+        } else if (switchErr?.code === 4001) {
+          // User rejected network switch
+          setTxStatus('error');
+          return;
         }
-        // If user cancelled the network switch, fall through to demo
       }
 
-      // Step 3: Verify we're on the right network
-      const network = await provider.getNetwork();
-      const onAmoy = Number(network.chainId) === 80002;
+      // Re-create provider after network switch (MetaMask requires this)
+      const freshProvider = new BrowserProvider(window.ethereum);
+      const network = await freshProvider.getNetwork();
+      const chainId = Number(network.chainId);
+      console.log('PropFi: Current chain:', chainId);
 
-      if (!onAmoy) {
-        // Wrong network and user didn't switch → demo mode
-        console.info('PropFi: not on Amoy, using demo transaction');
-        await runDemoTransaction();
+      if (chainId !== 80002) {
+        alert('Please switch to Polygon Amoy Testnet in MetaMask and try again.');
+        setTxStatus('idle');
         return;
       }
 
-      // Step 4: Send real MATIC transaction
-      const signer = await provider.getSigner();
-      const buyNote = `PropFi:BUY:${asset.id}:${receiveAmount}T`;
+      // Step 3: Get signer and check balance
+      const signer = await freshProvider.getSigner();
+      const balance = await freshProvider.getBalance(signer.address);
+      const balanceMatic = parseFloat(formatEther(balance));
+      console.log(`PropFi: Wallet balance: ${balanceMatic} MATIC`);
+
+      // Step 4: Calculate MATIC amount from INR
+      const maticToSend = payAmount / maticPriceINR;
+      console.log(`PropFi: ₹${payAmount} INR = ${maticToSend.toFixed(6)} MATIC (rate: ₹${maticPriceINR})`);
+
+      // Check if user has enough (leave 0.005 MATIC for gas)
+      const gasBuffer = 0.005;
+      if (balanceMatic < maticToSend + gasBuffer) {
+        alert(`Insufficient balance.\n\nYou have: ${balanceMatic.toFixed(4)} MATIC\nRequired: ${maticToSend.toFixed(4)} MATIC + ~0.005 gas\n\nGet test MATIC from faucet.polygon.technology`);
+        setTxStatus('idle');
+        return;
+      }
+
+      // Step 5: Build and send REAL transaction with MetaMask confirmation popup
+      const buyNote = `PropFi:BUY:${asset.id}:${receiveAmount}tokens:INR${payAmount}`;
       const hexData = '0x' + Array.from(new TextEncoder().encode(buyNote))
         .map(b => b.toString(16).padStart(2, '0')).join('');
 
+      // Convert to Wei (18 decimals) — use string to avoid float precision issues
+      const maticStr = maticToSend.toFixed(18);
+      const valueWei = parseEther(maticStr);
+
+      console.log(`PropFi: Sending ${maticStr} MATIC to burn address...`);
+
+      // THIS is where MetaMask pops up asking for confirmation
       const tx = await signer.sendTransaction({
         to: '0x000000000000000000000000000000000000dEaD',
-        value: parseEther('0.001'),
+        value: valueWei,
         data: hexData,
       });
 
-      // Show success immediately — tx is broadcast, no need to wait for confirmation
+      console.log(`PropFi: ✅ Transaction broadcast! Hash: ${tx.hash}`);
+      console.log(`PropFi: View on PolygonScan: https://amoy.polygonscan.com/tx/${tx.hash}`);
+
+      // Success — record the purchase with the REAL hash
       finalizePurchase(tx.hash);
 
     } catch (e: any) {
       const msg = e?.message || '';
-      // User explicitly rejected in MetaMask → show error
-      if (e?.code === 4001 || msg.includes('rejected') || msg.includes('denied')) {
+      console.error('PropFi: Transaction error:', msg);
+
+      if (e?.code === 4001 || msg.includes('rejected') || msg.includes('denied') || msg.includes('user rejected')) {
+        // User clicked "Reject" in MetaMask
         setTxStatus('error');
+      } else if (msg.includes('insufficient funds')) {
+        alert('Insufficient MATIC balance. Get test MATIC from faucet.polygon.technology');
+        setTxStatus('idle');
       } else {
-        // Any other failure (gas, RPC, etc.) → demo fallback so demo never breaks
-        console.info('PropFi: tx error, falling back to demo:', msg);
-        await runDemoTransaction();
+        // Show the actual error, don't hide it behind demo
+        alert(`Transaction failed: ${msg.substring(0, 120)}`);
+        setTxStatus('error');
       }
     }
   };
@@ -420,6 +482,17 @@ export default function AssetDetail() {
                   <span>Total</span>
                   <span>₹{(receiveAmount * asset.tokenPrice).toLocaleString('en-IN')}</span>
                 </div>
+                {/* MATIC Conversion — AMM Pricing */}
+                <div style={{marginTop:'0.6rem', paddingTop:'0.6rem', borderTop:'1px dashed rgba(200,147,90,0.3)'}}>
+                  <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.78rem', color:'var(--accent-primary)', fontWeight:600}}>
+                    <span>🔗 On-chain Amount</span>
+                    <span>{maticFormatted} MATIC</span>
+                  </div>
+                  <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.68rem', color:'var(--text-muted)', marginTop:'0.25rem'}}>
+                    <span>Exchange Rate</span>
+                    <span>1 MATIC = ₹{maticPriceINR.toFixed(2)} INR {maticLoaded ? '(live)' : '...'}</span>
+                  </div>
+                </div>
               </div>
 
               {/* Transaction Status */}
@@ -437,7 +510,7 @@ export default function AssetDetail() {
 
               {txStatus === 'error' && (
                 <div style={{background:'rgba(255,69,58,0.1)', border:'1px solid rgba(255,69,58,0.3)', borderRadius:'10px', padding:'0.75rem', marginBottom:'1rem', color:'var(--accent-red)', fontSize:'0.85rem'}}>
-                  ✗ Transaction rejected or failed.
+                  ✗ Transaction rejected. Please try again.
                 </div>
               )}
 
@@ -453,14 +526,14 @@ export default function AssetDetail() {
                   '✓ Purchase Confirmed!'
                 ) : activeTab === 'buy' ? (
                   typeof window !== 'undefined' && (window as any).ethereum
-                    ? '🦊 Buy via MetaMask'
+                    ? `🦊 Pay ${maticFormatted} MATIC`
                     : '⚡ Buy Tokens (Demo)'
                 ) : (
                   '📤 Sell via MetaMask'
                 )}
               </button>
               <p style={{fontSize:'0.72rem', color:'var(--text-muted)', textAlign:'center', marginTop:'0.5rem'}}>
-                Secured by Polygon Amoy Testnet · Powered by ethers.js
+                Polygon Amoy Testnet · Real on-chain transaction · ethers.js
               </p>
             </div>
           </div>
