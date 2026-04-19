@@ -319,7 +319,8 @@ p { color: var(--text-secondary); line-height: 1.6; }
   display:flex;
   flex-direction:column;
   margin-left:260px; /* offset sidebar correctly without squishing kids */
-  width: calc(100% - 260px);
+  flex: 1;
+  min-width: 0; /* prevent flex blowout */
   min-height: 100vh;
 }
 

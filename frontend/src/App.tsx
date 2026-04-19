@@ -80,7 +80,7 @@ function App() {
         <Web3Context.Provider value={{ walletAddress, ethBalance, setEthBalance }}>
           <Router>
           <ScrollRevealObserver />
-          <div className={`app-container ${showSplash ? 'splash-hidden' : 'app-visible'}`} style={{ display: (splashDone && isAuthenticated) ? 'block' : 'none' }}>
+          <div className={`app-container ${showSplash ? 'splash-hidden' : 'app-visible'}`} style={{ display: (splashDone && isAuthenticated) ? 'flex' : 'none' }}>
             <Sidebar />
             <main className="main-content">
               <Header />
