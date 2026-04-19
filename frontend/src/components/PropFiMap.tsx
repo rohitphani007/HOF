@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 // Fix default marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -115,10 +116,10 @@ export default function PropFiMap({ properties, totalCount }: { properties: any[
                     </div>
                   )}
                 </div>
-                <a href={`/asset/${p.id}`}
+                <Link to={`/asset/${p.id}`}
                   style={{ display: 'block', marginTop: '0.6rem', background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', color: '#fff', padding: '0.4rem', borderRadius: '8px', textAlign: 'center', fontWeight: 700, fontSize: '0.82rem', textDecoration: 'none' }}>
                   View & Trade →
-                </a>
+                </Link>
               </div>
             </Popup>
           </Marker>

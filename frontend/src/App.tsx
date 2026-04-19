@@ -53,10 +53,9 @@ function StackedHome() {
 }
 
 function App() {
-  // Splash only plays ONCE per browser session — not on every navigation
-  const alreadySplashed = !!sessionStorage.getItem('propfi_splashed');
-  const [showSplash, setShowSplash] = useState(!alreadySplashed);
-  const [splashDone, setSplashDone]     = useState(alreadySplashed);
+  // Splash plays on every browser refresh, but NOT on in-app navigation
+  const [showSplash, setShowSplash] = useState(true);
+  const [splashDone, setSplashDone]     = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('propfi_auth'));
   const [walletAddress, setWalletAddress] = useState('');
   const [ethBalance, setEthBalance] = useState('0');
@@ -64,7 +63,6 @@ function App() {
   const handleSplashDone = useCallback(() => {
     setShowSplash(false);
     setSplashDone(true);
-    sessionStorage.setItem('propfi_splashed', '1');
   }, []);
 
   const handleLogin = (addr: string = '', bal: string = '0') => {
