@@ -145,7 +145,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
         {/* Stats row */}
         {step >= 3 && (
           <div className="splash-stats animate-stats">
-            {[['₹2,400 Cr+','Total AUM'],['12,000+','Investors'],['99.9%','Uptime']].map(([v,l]) => (
+            {[['₹3,000 Cr+','Total AUM'],['5,86,000+','Token Holders'],['99.9%','Uptime']].map(([v,l]) => (
               <div className="splash-stat" key={l}>
                 <span className="splash-stat-val">{v}</span>
                 <span className="splash-stat-label">{l}</span>

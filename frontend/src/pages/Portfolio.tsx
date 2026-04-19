@@ -169,7 +169,7 @@ export default function Portfolio() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
               {[
                 { step: '01', title: 'Connect MetaMask', desc: 'Click "Connect MetaMask" in the header to link your wallet.', icon: '🦊', color: '#f59e0b' },
-                { step: '02', title: 'Browse Market', desc: 'Explore 55 properties across 31 Indian cities with real yields.', icon: '🏘️', color: '#6366f1' },
+                { step: '02', title: 'Browse Market', desc: 'Explore 1,064 properties across 56 Indian cities with real yields.', icon: '🏘️', color: '#6366f1' },
                 { step: '03', title: 'Buy Tokens', desc: 'Purchase land fractions starting at ₹500/token on Polygon.', icon: '💎', color: '#10b981' },
                 { step: '04', title: 'Earn Returns', desc: 'Receive monthly rent/lease income directly to your wallet.', icon: '📈', color: '#ec4899' },
               ].map(s => (

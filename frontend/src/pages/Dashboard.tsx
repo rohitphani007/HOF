@@ -35,15 +35,16 @@ export default function Dashboard() {
   const [activity,     setActivity]     = useState<any[]>([]);
   const [topMovers,    setTopMovers]    = useState<any[]>([]);
   const [metrics, setMetrics] = useState({
-    totalProperties: 55,
-    totalHolders: 2847,
-    avgYield: 14.2,
-    tvl: 92_40_00_000,
+    totalProperties: 1064,
+    totalHolders: 586598,
+    avgYield: 10.0,
+    tvl: 30_78_98_35_689,
+    totalCities: 56,
   });
 
   // Fetch real properties for top movers
   useEffect(() => {
-    PropFiAPI.getProperties({ limit: 500 })
+    PropFiAPI.getProperties({ limit: 2000 })
       .then((res: any) => {
         // API now returns { data: [...], total, ... } — extract the array
         const data: any[] = Array.isArray(res) ? res : (res?.data || []);
@@ -72,7 +73,8 @@ export default function Dashboard() {
         const avgYield = data.reduce((s: number, p: any) => s + (p.appreciationYield || p.rentalYield || 0), 0) / data.length;
         const totalTvl = data.reduce((s: number, p: any) => s + (p.totalValue || 0), 0);
         const totalHolders = data.reduce((s: number, p: any) => s + (p.tokenHolders || 0), 0);
-        setMetrics({ totalProperties: data.length, totalHolders, avgYield: Math.round(avgYield * 10) / 10, tvl: totalTvl });
+        const uniqueCities = new Set(data.map((p: any) => p.city)).size;
+        setMetrics({ totalProperties: data.length, totalHolders, avgYield: Math.round(avgYield * 10) / 10, tvl: totalTvl, totalCities: uniqueCities });
       })
       .catch(console.error);
   }, []);
@@ -141,7 +143,7 @@ export default function Dashboard() {
           </h1>
           <p className="dash-sub">
             Tracking <strong style={{ color: 'var(--accent-primary)' }}>{metrics.totalProperties} properties</strong> across{' '}
-            <strong style={{ color: 'var(--accent-green)' }}>31 Indian cities</strong> · avg yield{' '}
+            <strong style={{ color: 'var(--accent-green)' }}>{metrics.totalCities} Indian cities</strong> · avg yield{' '}
             <strong style={{ color: 'var(--accent-green)' }}>{metrics.avgYield}%</strong>
           </p>
         </div>
@@ -187,7 +189,7 @@ export default function Dashboard() {
         </div>
         <div className="tile tile-purple card-3d">
           <p className="tile-label">Indian Cities Listed</p>
-          <h2 className="tile-value"><Counter target={31} /></h2>
+          <h2 className="tile-value"><Counter target={metrics.totalCities} /></h2>
           <div className="tile-badge"><BarChart3 size={11} /> Tier 1 + Tier 2 + Tier 3</div>
         </div>
       </div>
