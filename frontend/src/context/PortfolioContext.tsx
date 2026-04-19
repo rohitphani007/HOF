@@ -10,6 +10,8 @@ export interface Holding {
   currentPrice: number;
   image: string;
   purchasedAt: string;
+  /** Property type from listing (e.g. Studio Apartment, Agricultural Land) — used for allocation */
+  assetType?: string;
 }
 
 export interface BankEntry {

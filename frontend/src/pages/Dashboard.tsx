@@ -30,10 +30,45 @@ function Counter({ target, prefix = '', suffix = '' }: { target: number; prefix?
   return <span ref={ref}>{prefix}{n.toLocaleString('en-IN')}{suffix}</span>;
 }
 
+type AllocationRow = { label: string; pct: number; val: string; color: string };
+
+function bucketCityIndex(cityRaw: string): number {
+  const c = (cityRaw || '').toLowerCase().trim();
+  // Mumbai Metropolitan Region (tier-1 liquidity proxy)
+  if (/mumbai|thane|navi mumbai|palghar|vasai|virar|kalyan|dombiv|ulhas|bhiwandi/.test(c)) return 0;
+  if (/bengaluru|bangalore/.test(c)) return 1;
+  if (/delhi|new delhi|gurugram|gurgaon|noida|ghaziabad|faridabad|greater noida/.test(c)) return 2;
+  if (/hyderabad|secunderabad/.test(c)) return 3;
+  return 4;
+}
+
+/** Integer percentages that sum to 100 (largest remainder). */
+function allocatePercents(sums: number[]): number[] {
+  const total = sums.reduce((a, b) => a + b, 0);
+  if (total <= 0) return sums.map(() => 0);
+  const exact = sums.map((s) => (s / total) * 100);
+  const floor = exact.map((x) => Math.floor(x));
+  let diff = 100 - floor.reduce((a, b) => a + b, 0);
+  const order = exact
+    .map((x, i) => ({ i, r: x - floor[i] }))
+    .sort((a, b) => b.r - a.r);
+  for (let d = 0; d < diff; d++) floor[order[d % order.length].i]++;
+  return floor;
+}
+
+const ALLOCATION_META: { label: string; color: string }[] = [
+  { label: 'Mumbai MMR', color: '#6366f1' },
+  { label: 'Bengaluru', color: '#eab308' },
+  { label: 'Delhi NCR', color: '#f59e0b' },
+  { label: 'Hyderabad', color: '#10b981' },
+  { label: 'Other Cities', color: '#f43f5e' },
+];
+
 export default function Dashboard() {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [activity,     setActivity]     = useState<any[]>([]);
   const [topMovers,    setTopMovers]    = useState<any[]>([]);
+  const [allocationCities, setAllocationCities] = useState<AllocationRow[]>([]);
   const [metrics, setMetrics] = useState({
     totalProperties: 1064,
     totalHolders: 586598,
@@ -75,6 +110,20 @@ export default function Dashboard() {
         const totalHolders = data.reduce((s: number, p: any) => s + (p.tokenHolders || 0), 0);
         const uniqueCities = new Set(data.map((p: any) => p.city)).size;
         setMetrics({ totalProperties: data.length, totalHolders, avgYield: Math.round(avgYield * 10) / 10, tvl: totalTvl, totalCities: uniqueCities });
+
+        const sums = [0, 0, 0, 0, 0];
+        for (const p of data) {
+          const idx = bucketCityIndex(String(p.city || ''));
+          sums[idx] += p.totalValue || 0;
+        }
+        const pcts = allocatePercents(sums);
+        const rows: AllocationRow[] = ALLOCATION_META.map((m, i) => ({
+          label: m.label,
+          pct: pcts[i],
+          val: sums[i] > 0 ? `₹${(sums[i] / 1e7).toFixed(1)}Cr` : '₹0Cr',
+          color: m.color,
+        }));
+        setAllocationCities(rows);
       })
       .catch(console.error);
   }, []);
@@ -118,15 +167,6 @@ export default function Dashboard() {
     { sym: 'KCH-OFS', chg: '+2.8%', up: true }, { sym: 'AHM-GFT', chg: '+5.2%', up: true },
   ];
   const doubled = [...tickers, ...tickers];
-
-  // City allocation from top movers
-  const allocationCities = [
-    { label: 'Mumbai MMR', pct: 38, val: '₹35.1Cr', color: '#6366f1' },
-    { label: 'Bengaluru', pct: 26, val: '₹24.0Cr', color: '#8b5cf6' },
-    { label: 'Delhi NCR', pct: 18, val: '₹16.6Cr', color: '#f59e0b' },
-    { label: 'Hyderabad', pct: 10, val: '₹9.2Cr', color: '#10b981' },
-    { label: 'Other Cities', pct: 8, val: '₹7.4Cr', color: '#f43f5e' },
-  ];
 
   return (
     <div className="dashboard animate-fade-in">
@@ -200,6 +240,11 @@ export default function Dashboard() {
         {/* Allocation by city */}
         <div className="card card-3d stagger-4">
           <h3 className="section-title">Market Allocation by City</h3>
+          {allocationCities.length === 0 ? (
+            <div className="text-muted" style={{ fontSize: '0.85rem', textAlign: 'center', padding: '1.5rem' }}>
+              Loading allocation from live listings…
+            </div>
+          ) : (
           <div className="allocation-bars">
             {allocationCities.map(b => (
               <div className="bar-item" key={b.label}>
@@ -208,11 +253,13 @@ export default function Dashboard() {
                   <span>{b.val}</span>
                 </div>
                 <div className="bar-bg">
-                  <div className="bar-fill" style={{ width: `${b.pct}%`, background: b.color }} />
+                  <div className="bar-fill bar-fill-uniform" style={{ background: b.color }} />
                 </div>
               </div>
             ))}
           </div>
+          )}
+          {allocationCities.length > 0 && (
           <div className="mini-donut-wrap">
             <svg viewBox="0 0 80 80" className="mini-donut">
               {allocationCities.map((s, i) => {
@@ -226,6 +273,7 @@ export default function Dashboard() {
               })}
             </svg>
           </div>
+          )}
         </div>
 
         {/* Top Movers — from API */}

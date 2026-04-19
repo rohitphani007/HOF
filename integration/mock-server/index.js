@@ -529,49 +529,44 @@ app.post('/api/zk/generate-proof', (req, res) => {
   }, 1200); // simulate ZK proof generation delay
 });
 
-// ── Derivatives / Futures ──────────────────────────────────────────────────────
+// ── Derivatives / Futures (perp-style index contracts; small jitter on each poll = “live” quote) ─
 app.get('/api/derivatives/futures', (req, res) => {
-  res.json([
+  const j = () => (Math.random() - 0.5);
+  const noise = (n) => Math.max(0, n + j() * 0.4);
+  const contracts = [
     {
-      id: 'fut_mum_q2',
-      name: 'Mumbai Real Estate Index - Q2 2026',
-      currentPrice: 48500,
-      strikePrice: 47000,
-      expiry: '2026-06-30',
-      type: 'CALL',
-      premium: 1200,
-      openInterest: 2847,
-      volume24h: 412,
-      impliedVolatility: 18.4,
-      delta: 0.62,
+      symbol: 'MUM-IDX-DEC',
+      name: 'Mumbai Real Estate Index',
+      expiry: '31 Dec 2026',
+      priceInr: Math.round(48200 + j() * 180),
+      changePct24h: Number((2.4 + j() * 0.25).toFixed(2)),
+      volumeCr: Number(noise(52.5).toFixed(1)),
     },
     {
-      id: 'fut_blr_q2',
-      name: 'Bengaluru Tech Corridor Index - Q2 2026',
-      currentPrice: 32100,
-      strikePrice: 30000,
-      expiry: '2026-06-30',
-      type: 'CALL',
-      premium: 980,
-      openInterest: 1923,
-      volume24h: 289,
-      impliedVolatility: 22.1,
-      delta: 0.71,
+      symbol: 'BLR-TECH-SEP',
+      name: 'Bengaluru Tech Corridors',
+      expiry: '30 Sep 2026',
+      priceInr: Math.round(19450 + j() * 160),
+      changePct24h: Number((-1.1 + j() * 0.2).toFixed(2)),
+      volumeCr: Number(noise(45).toFixed(1)),
     },
     {
-      id: 'fut_del_q2',
-      name: 'Delhi NCR Commercial Index - Q2 2026',
-      currentPrice: 61200,
-      strikePrice: 63000,
-      expiry: '2026-06-30',
-      type: 'PUT',
-      premium: 850,
-      openInterest: 1104,
-      volume24h: 176,
-      impliedVolatility: 15.8,
-      delta: -0.38,
+      symbol: 'NCR-CM-DEC',
+      name: 'NCR Commercial Basket',
+      expiry: '31 Dec 2026',
+      priceInr: Math.round(24100 + j() * 140),
+      changePct24h: Number((0.8 + j() * 0.2).toFixed(2)),
+      volumeCr: Number(noise(45).toFixed(1)),
     },
-  ]);
+  ];
+  const volume24hCr = Number(contracts.reduce((s, c) => s + c.volumeCr, 0).toFixed(1));
+  const openInterestCr = Math.round(volume24hCr * 5.894 * 10) / 10;
+  res.json({
+    volume24hCr,
+    openInterestCr,
+    updatedAt: new Date().toISOString(),
+    contracts,
+  });
 });
 
 // ── DAO / Governance ───────────────────────────────────────────────────────────

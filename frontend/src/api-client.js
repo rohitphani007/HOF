@@ -9,8 +9,12 @@
 import { ethers } from 'ethers';
 import { USDC_ADDRESS, USDC_ABI, PROPFI_MASTER_ADDRESS, PROPFI_MASTER_ABI } from './contracts/constants';
 
-const BASE_URL = 'http://localhost:3001/api';
-const WS_URL   = 'ws://localhost:3001';
+/** Same-origin `/api` in Vite dev (proxied to mock server); full URL for production builds / preview without proxy */
+const BASE_URL = import.meta.env.DEV ? '/api' : 'http://localhost:3001/api';
+const WS_URL =
+  typeof window !== 'undefined' && import.meta.env.DEV
+    ? `ws://${window.location.hostname}:3001`
+    : 'ws://localhost:3001';
 
 // ── HTTP helper ───────────────────────────────────────────────────────────────
 async function request(path, options = {}) {

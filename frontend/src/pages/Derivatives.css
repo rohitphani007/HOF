@@ -60,11 +60,23 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
+  min-height: 108px;
+  box-sizing: border-box;
   background: var(--bg-base);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+.contract-item-active {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.35);
+  background-color: var(--bg-surface-hover);
 }
 
 .contract-item:hover {
@@ -252,4 +264,33 @@
 
 .summary-row .text-danger {
   color: var(--accent-danger) !important;
+}
+
+.deriv-notice {
+  font-size: 0.82rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  margin-top: 0.75rem;
+  line-height: 1.4;
+}
+
+.deriv-notice-ok {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: var(--accent-green, #10b981);
+}
+
+.deriv-notice-err {
+  background: rgba(244, 63, 94, 0.1);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  color: var(--accent-danger, #f43f5e);
+}
+
+.deriv-quote-hint,
+.deriv-quote-warn {
+  font-size: 0.8rem;
+  margin: 0.35rem 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }

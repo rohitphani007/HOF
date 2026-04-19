@@ -74,6 +74,7 @@ export default function AssetDetail() {
       currentPrice: asset.tokenPrice,
       image: getLandPhoto(asset.type, asset.image),
       purchasedAt: new Date().toISOString(),
+      assetType: asset.type || asset.landCategory || undefined,
     }, payAmount, hash);
     setTxStatus('done');
   };
