@@ -9,12 +9,12 @@
 import { ethers } from 'ethers';
 import { USDC_ADDRESS, USDC_ABI, PROPFI_MASTER_ADDRESS, PROPFI_MASTER_ABI } from './contracts/constants';
 
-/** Same-origin `/api` in Vite dev (proxied to mock server); full URL for production builds / preview without proxy */
-const BASE_URL = import.meta.env.DEV ? '/api' : 'http://localhost:3001/api';
+/** Always use same-origin `/api` — Vercel serverless functions handle it in production, Vite proxy in dev */
+const BASE_URL = '/api';
 const WS_URL =
   typeof window !== 'undefined' && import.meta.env.DEV
     ? `ws://${window.location.hostname}:3001`
-    : 'ws://localhost:3001';
+    : null; // WebSocket not available on Vercel serverless
 
 // ── HTTP helper ───────────────────────────────────────────────────────────────
 async function request(path, options = {}) {
@@ -213,6 +213,12 @@ export const getProposals = () => request('/dao/proposals');
  * // cleanup: ws.close()
  */
 export const connectLiveFeed = ({ onPriceTick, onNewTx, onInit, onError }) => {
+  // WebSocket not available on Vercel serverless — return a no-op
+  if (!WS_URL) {
+    console.warn('[PropFiAPI WS] WebSocket not available in this environment');
+    return { close: () => {}, readyState: 3 };
+  }
+
   const ws = new WebSocket(WS_URL);
 
   ws.onmessage = (event) => {

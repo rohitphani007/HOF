@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.cjs" },
+    { "source": "/([^.]*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/index.cjs": {
+      "maxDuration": 10
+    }
+  }
+}
