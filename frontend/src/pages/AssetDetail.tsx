@@ -171,24 +171,29 @@ export default function AssetDetail() {
       const maticToSend = payAmount / maticPriceINR;
       console.log(`PropFi: ₹${payAmount} INR = ${maticToSend.toFixed(6)} MATIC (rate: ₹${maticPriceINR})`);
 
-      // Check if user has enough (leave 0.005 MATIC for gas)
+      // Check if user has enough (leave 0.005 MATIC for gas) - ONLY for Buy
       const gasBuffer = 0.005;
-      if (balanceMatic < maticToSend + gasBuffer) {
+      if (activeTab === 'buy' && balanceMatic < maticToSend + gasBuffer) {
         alert(`Insufficient balance.\n\nYou have: ${balanceMatic.toFixed(4)} MATIC\nRequired: ${maticToSend.toFixed(4)} MATIC + ~0.005 gas\n\nGet test MATIC from faucet.polygon.technology`);
+        setTxStatus('idle');
+        return;
+      } else if (activeTab === 'sell' && balanceMatic < gasBuffer) {
+        alert(`Insufficient balance for gas.\n\nYou need at least 0.005 MATIC for gas to execute a sell. Get test MATIC from faucet.polygon.technology`);
         setTxStatus('idle');
         return;
       }
 
       // Step 5: Build and send REAL transaction with MetaMask confirmation popup
-      const buyNote = `PropFi:BUY:${asset.id}:${receiveAmount}tokens:INR${payAmount}`;
+      const action = activeTab === 'buy' ? 'BUY' : 'SELL';
+      const buyNote = `PropFi:${action}:${asset.id}:${receiveAmount}tokens:INR${payAmount}`;
       const hexData = '0x' + Array.from(new TextEncoder().encode(buyNote))
         .map(b => b.toString(16).padStart(2, '0')).join('');
 
       // Convert to Wei (18 decimals) — use string to avoid float precision issues
       const maticStr = maticToSend.toFixed(18);
-      const valueWei = parseEther(maticStr);
+      const valueWei = activeTab === 'buy' ? parseEther(maticStr) : 0n; // selling means 0 value payload
 
-      console.log(`PropFi: Sending ${maticStr} MATIC to burn address...`);
+      console.log(`PropFi: Executive ${action} of ${maticStr} MATIC equivalent routing...`);
 
       // THIS is where MetaMask pops up asking for confirmation
       const tx = await signer.sendTransaction({
@@ -200,7 +205,7 @@ export default function AssetDetail() {
       console.log(`PropFi: ✅ Transaction broadcast! Hash: ${tx.hash}`);
       console.log(`PropFi: View on PolygonScan: https://amoy.polygonscan.com/tx/${tx.hash}`);
 
-      // Success — record the purchase with the REAL hash
+      // Success — record the purchase (or sale) with the REAL hash
       finalizePurchase(tx.hash);
 
     } catch (e: any) {
@@ -444,9 +449,11 @@ export default function AssetDetail() {
               >SELL</button>
             </div>
 
-            <div className="order-form">
+              <div className="order-form">
               <div style={{marginBottom:'1rem'}}>
-                <label style={{fontSize:'0.8rem', color:'var(--text-muted)', marginBottom:'0.4rem', display:'block'}}>Pay (INR)</label>
+                <label style={{fontSize:'0.8rem', color:'var(--text-muted)', marginBottom:'0.4rem', display:'block'}}>
+                  {activeTab === 'buy' ? 'Pay (INR)' : 'Receive (INR)'}
+                </label>
                 <div style={{position:'relative'}}>
                   <span style={{position:'absolute', left:'1rem', top:'50%', transform:'translateY(-50%)', fontWeight:700, color:'var(--text-muted)'}}>₹</span>
                   <input
@@ -469,7 +476,7 @@ export default function AssetDetail() {
 
               <div style={{background:'rgba(255,255,255,0.03)', borderRadius:'10px', padding:'1rem', marginBottom:'1rem'}}>
                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem', fontSize:'0.85rem'}}>
-                  <span className="text-muted">You receive</span>
+                  <span className="text-muted">{activeTab === 'buy' ? 'You receive' : 'You sell'}</span>
                   <span style={{fontWeight:700, fontSize:'1.1rem'}}>{receiveAmount} tokens</span>
                 </div>
                 <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.8rem', color:'var(--text-muted)'}}>
@@ -479,8 +486,8 @@ export default function AssetDetail() {
                   <span>Platform fee</span><span>0.3%</span>
                 </div>
                 <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.8rem', marginTop:'0.5rem', paddingTop:'0.5rem', borderTop:'1px solid var(--glass-border)', fontWeight:600}}>
-                  <span>Total</span>
-                  <span>₹{(receiveAmount * asset.tokenPrice).toLocaleString('en-IN')}</span>
+                  <span>{activeTab === 'buy' ? 'Total Cost' : 'Total Payout'}</span>
+                  <span style={{color: activeTab === 'buy' ? 'inherit' : 'var(--accent-green)'}}>₹{(receiveAmount * asset.tokenPrice).toLocaleString('en-IN')}</span>
                 </div>
                 {/* MATIC Conversion — AMM Pricing */}
                 <div style={{marginTop:'0.6rem', paddingTop:'0.6rem', borderTop:'1px dashed rgba(200,147,90,0.3)'}}>
