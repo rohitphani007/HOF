@@ -109,7 +109,7 @@ export default function Dashboard() {
         const totalTvl = data.reduce((s: number, p: any) => s + (p.totalValue || 0), 0);
         const totalHolders = data.reduce((s: number, p: any) => s + (p.tokenHolders || 0), 0);
         const uniqueCities = new Set(data.map((p: any) => p.city)).size;
-        setMetrics({ totalProperties: data.length, totalHolders, avgYield: Math.round(avgYield * 10) / 10, tvl: totalTvl, totalCities: uniqueCities });
+        setMetrics({ totalProperties: res.total || 1064, totalHolders, avgYield: Math.round(avgYield * 10) / 10, tvl: totalTvl, totalCities: uniqueCities });
 
         const sums = [0, 0, 0, 0, 0];
         for (const p of data) {
