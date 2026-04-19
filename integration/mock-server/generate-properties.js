@@ -183,7 +183,71 @@ const AREA_SLOGANS = {
   'Farmhouse':          ['Weekend Farmhouse','Eco Farmhouse','Luxury Farmhouse','Organic Farm Villa'],
 };
 
-const LEGAL_STATUSES = ['Clear Title','RERA Approved','A-Katha','B-Katha','Patta Land','7/12 Clear'];
+const LEGAL_STATUSES = ['Clear Title','RERA Registered','Patta Land','7/12 Clear','Freehold','Leasehold','DTCP Approved'];
+
+// ── REAL INDIAN LAND CERTIFICATIONS ────────────────────────────────────────────
+// Every property gets a realistic subset based on its type
+const CERTIFICATIONS_RESIDENTIAL = [
+  'RERA Registered',            // Real Estate Regulatory Authority
+  'Encumbrance Certificate',    // EC from Sub-Registrar office
+  'Sale Deed Registered',       // Registration Act 1908
+  'Title Deed Verified',        // Title search clear
+  'Mutation Certificate',       // Revenue records updated
+  'Khata Certificate',          // Karnataka/municipal
+  'Completion Certificate',     // From municipal corporation
+  'Occupancy Certificate',      // OC from planning authority
+  'Building Plan Approved',     // Approved by local planning
+  'NOC - Fire Department',      // Fire safety clearance
+  'NOC - Environment',          // Environmental clearance
+  'Property Tax Paid',          // Latest tax receipt
+];
+
+const CERTIFICATIONS_LAND = [
+  '7/12 Extract Clear',         // Maharashtra land record
+  'Patta Transfer Done',        // Tamil Nadu / AP land record
+  'Revenue Records Clear',      // Tahsildar office
+  'NA Conversion Order',        // Non-Agricultural conversion
+  'Land Use Certificate',       // From Town Planning dept
+  'Encumbrance Certificate',    // EC from Sub-Registrar
+  'Title Deed Verified',        // Full title investigation
+  'Mutation Certificate',       // Name transfer in records
+  'Soil Testing Report',        // For agricultural / construction
+  'Survey Number Verified',     // Taluk office verification
+  'Boundary Verification Done', // Physical survey
+  'Stamp Duty Paid',            // Registration stamp
+];
+
+const CERTIFICATIONS_COMMERCIAL = [
+  'RERA Registered',
+  'DTCP Approved',              // Directorate of Town & Country Planning
+  'BMRDA Approved',             // Bangalore Metropolitan Region Dev Authority
+  'Commercial License',         // Municipal trade license
+  'Fire Safety Certificate',    // Fire dept NOC
+  'Structural Stability Certificate',
+  'Encumbrance Certificate',
+  'Completion Certificate',
+  'Occupancy Certificate',
+  'Property Tax Paid',
+  'GST Registration',           // For commercial income
+  'Insurance Verified',         // Building insurance
+];
+
+function getCertifications(type) {
+  const isLand = APPRECIATION_TYPES.has(type);
+  const isComm = type.includes('Commercial') || type.includes('Industrial');
+  const pool = isLand ? CERTIFICATIONS_LAND :
+               isComm ? CERTIFICATIONS_COMMERCIAL :
+               CERTIFICATIONS_RESIDENTIAL;
+  // 2 to 6 certifications per property (more = premium)
+  const count = rndInt(2, 6);
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
+
+// Certification count affects price: each cert adds 1.5% to base price
+function certPriceMultiplier(certCount) {
+  return 1 + (certCount * 0.015);
+}
 
 function rnd(min, max) {
   return Math.random() * (max - min) + min;
@@ -258,7 +322,13 @@ for (const city of CITIES) {
     const basePriceMap = BASE_PRICE[type] || BASE_PRICE['Apartment'];
     const baseTokenPrice = jitter(basePriceMap[city.tier] || basePriceMap[2], 0.30);
 
-    const totalValue = Math.round(baseTokenPrice * 10000 * rnd(0.8, 1.2));
+    // Generate certifications for this property
+    const certifications = getCertifications(type);
+    // More certifications = higher price (each cert = +1.5%)
+    const certMultiplier = certPriceMultiplier(certifications.length);
+    const adjustedTokenPrice = Math.round(baseTokenPrice * certMultiplier);
+
+    const totalValue = Math.round(adjustedTokenPrice * 10000 * rnd(0.8, 1.2));
     const totalTokens = 10000;
     const soldPct = rnd(0.05, 0.75);
     const availableTokens = Math.round(totalTokens * (1 - soldPct));
@@ -325,7 +395,7 @@ for (const city of CITIES) {
       totalFloors: (!isAppreciation && sqft) ? rndInt(3, 40) : null,
       age: (!isAppreciation && sqft) ? rndInt(0, 20) : null,
       totalValue,
-      tokenPrice: baseTokenPrice,
+      tokenPrice: adjustedTokenPrice,
       totalTokens,
       availableTokens,
       rentalYield,
@@ -340,6 +410,8 @@ for (const city of CITIES) {
       amenities: getAmenities(type),
       legalStatus: pick(LEGAL_STATUSES),
       registryStatus: 'Registered',
+      certifications,
+      certificationCount: certifications.length,
       governmentGuidanceValue: Math.round(totalValue * rnd(0.65, 0.85)),
       distanceToMetro: parseFloat((rnd(0.1, 8)).toFixed(1)),
       distanceToAirport: parseFloat((rnd(3, 55)).toFixed(1)),

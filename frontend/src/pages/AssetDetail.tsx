@@ -309,6 +309,54 @@ export default function AssetDetail() {
               </div>
             )}
           </div>
+
+          {/* Certifications & Legal Compliance */}
+          {asset.certifications && asset.certifications.length > 0 && (
+            <div className="about-asset card" style={{marginTop: '1.25rem'}}>
+              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                <h3 style={{margin:0}}>Certifications & Legal Compliance</h3>
+                <span style={{
+                  background: asset.certificationCount >= 5 ? 'rgba(16,185,129,0.15)' :
+                              asset.certificationCount >= 3 ? 'rgba(245,158,11,0.15)' :
+                              'rgba(239,68,68,0.15)',
+                  color: asset.certificationCount >= 5 ? 'var(--accent-green)' :
+                         asset.certificationCount >= 3 ? '#f59e0b' :
+                         '#ef4444',
+                  padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700,
+                  border: `1px solid ${asset.certificationCount >= 5 ? 'rgba(16,185,129,0.3)' :
+                            asset.certificationCount >= 3 ? 'rgba(245,158,11,0.3)' :
+                            'rgba(239,68,68,0.3)'}`,
+                }}>
+                  {asset.certificationCount >= 5 ? '🛡️ Premium Verified' :
+                   asset.certificationCount >= 3 ? '✓ Verified' :
+                   '⚠ Partial'}
+                </span>
+              </div>
+              <p style={{fontSize:'0.75rem', color:'var(--text-muted)', marginTop:'0.4rem', marginBottom:'0.75rem'}}>
+                {asset.certificationCount} of 12 certifications verified · More certifications = higher valuation premium
+              </p>
+              <div style={{display:'flex', gap:'0.4rem', flexWrap:'wrap'}}>
+                {asset.certifications.map((cert: string, i: number) => (
+                  <span key={i} style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+                    background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)',
+                    color: 'var(--accent-green)', padding: '0.3rem 0.7rem', borderRadius: '20px',
+                    fontSize: '0.73rem', fontWeight: 600,
+                  }}>
+                    ✓ {cert}
+                  </span>
+                ))}
+              </div>
+              {/* Price impact note */}
+              <div style={{
+                marginTop: '0.75rem', padding: '0.6rem 0.75rem', borderRadius: '8px',
+                background: 'rgba(200,147,90,0.08)', border: '1px solid rgba(200,147,90,0.15)',
+                fontSize: '0.72rem', color: 'var(--text-secondary)', lineHeight: 1.5,
+              }}>
+                📊 <strong style={{color:'var(--accent-primary)'}}>Valuation Impact:</strong> This property has {asset.certificationCount} verified certifications, contributing a <strong>{((asset.certificationCount * 1.5)).toFixed(1)}% premium</strong> to the token price. Properties with 5+ certifications typically attract 2× more institutional investors.
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right / Side col */}

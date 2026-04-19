@@ -94,7 +94,7 @@ function AssetCard({ asset }: { asset: any }) {
 
         <div className="asset-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '0.5rem', borderTop: '1px solid var(--glass-border)' }}>
           <span style={{ fontSize: '0.72rem', color: 'var(--accent-green)', fontWeight: 600 }}>
-            🤖 {asset.verified ? 'AI Verified' : 'Pending'}
+            ✓ {asset.legalStatus || (asset.certifications?.[0]) || 'Pending'}
           </span>
           <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
             {asset.availableTokens?.toLocaleString('en-IN')} left

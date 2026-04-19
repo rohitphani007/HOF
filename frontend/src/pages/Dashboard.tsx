@@ -180,7 +180,7 @@ export default function Dashboard() {
         <div className="tile tile-yellow card-3d">
           <p className="tile-label">Avg. Projected Yield</p>
           <h2 className="tile-value">+{metrics.avgYield.toFixed(1)}<span style={{fontSize:'0.55em'}}>%</span></h2>
-          <div className="tile-badge"><Zap size={11} /> Annual · AI Verified</div>
+          <div className="tile-badge"><Zap size={11} /> Annual Projected</div>
         </div>
         <div className="tile tile-green card-3d">
           <p className="tile-label">Total Token Holders</p>
