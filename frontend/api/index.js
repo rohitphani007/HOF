@@ -1,9 +1,9 @@
-const {
+import {
   properties, transactions, aiResponses, portfolioTokens,
   randomFluctuation, shortHash, nowISO, getLiveProperties, cors
-} = require('./_shared.cjs');
+} from './_shared.js';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (cors(req, res)) return;
 
   const url = req.url.split('?')[0]; // e.g. /api/health

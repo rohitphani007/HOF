@@ -1,26 +1,31 @@
-const path = require('path');
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // ─── Load mock data ─────────────────────────────────────────────────────────────
-const properties = require('./_data/properties.json');
-const transactions = require('./_data/transactions.json');
-const aiResponses = require('./_data/ai-responses.json');
+const properties = JSON.parse(readFileSync(join(__dirname, '_data/properties.json'), 'utf8'));
+const transactions = JSON.parse(readFileSync(join(__dirname, '_data/transactions.json'), 'utf8'));
+const aiResponses = JSON.parse(readFileSync(join(__dirname, '_data/ai-responses.json'), 'utf8'));
 
 // ─── Utility helpers ────────────────────────────────────────────────────────────
-function randomFluctuation(base, pct = 0.003) {
+export function randomFluctuation(base, pct = 0.003) {
   const delta = base * pct * (Math.random() * 2 - 1);
   return Math.round((base + delta) * 100) / 100;
 }
 
-function shortHash() {
+export function shortHash() {
   return '0x' + [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 }
 
-function nowISO() {
+export function nowISO() {
   return new Date().toISOString();
 }
 
 // Apply random price jitter to simulate live data (since serverless is stateless)
-function getLiveProperties() {
+export function getLiveProperties() {
   return properties.map(p => ({
     ...p,
     tokenPrice: randomFluctuation(p.tokenPrice),
@@ -28,7 +33,7 @@ function getLiveProperties() {
 }
 
 // CORS helper
-function cors(req, res) {
+export function cors(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -40,20 +45,10 @@ function cors(req, res) {
 }
 
 // Default portfolio state
-const portfolioTokens = {
+export const portfolioTokens = {
   prop_001: 20,
   prop_002: 50,
   prop_003: 15,
 };
 
-module.exports = {
-  properties,
-  transactions,
-  aiResponses,
-  portfolioTokens,
-  randomFluctuation,
-  shortHash,
-  nowISO,
-  getLiveProperties,
-  cors,
-};
+export { properties, transactions, aiResponses };
