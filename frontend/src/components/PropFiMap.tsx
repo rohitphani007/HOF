@@ -53,8 +53,9 @@ function FitBounds({ properties }: { properties: any[] }) {
   return null;
 }
 
-export default function PropFiMap({ properties }: { properties: any[] }) {
+export default function PropFiMap({ properties, totalCount }: { properties: any[], totalCount?: number }) {
   const valid = properties.filter(p => p.location?.lat && p.location?.lng);
+  const displayCount = totalCount !== undefined ? totalCount : valid.length;
 
   // India's geographic bounds — always start here, then fit to pins if available
   const INDIA_BOUNDS: [[number, number], [number, number]] = [
@@ -153,7 +154,7 @@ export default function PropFiMap({ properties }: { properties: any[] }) {
         background: 'rgba(99,102,241,0.9)', color: '#fff', borderRadius: '20px',
         padding: '0.3rem 0.85rem', fontSize: '0.78rem', fontWeight: 700,
       }}>
-        {valid.length} properties across India
+        {displayCount.toLocaleString('en-IN')} properties across India
       </div>
     </div>
   );

@@ -295,7 +295,7 @@ export default function Market() {
       {/* ── Map ── */}
       {showMap && (
         <div style={{ marginBottom: '2rem' }}>
-          <PropFiMap properties={mapAssets} />
+          <PropFiMap properties={mapAssets} totalCount={totalCount} />
         </div>
       )}
 
