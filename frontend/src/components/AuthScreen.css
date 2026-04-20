@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--bg-body);
+  background: var(--app-bg);
   z-index: 100000;
   overflow: hidden;
 }
@@ -46,6 +46,17 @@
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  /* Override .card class conflicts */
+  overflow: visible;
+}
+
+.auth-container:hover {
+  transform: none;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.auth-container:active {
+  transform: none;
 }
 
 [data-theme="light"] .auth-container {

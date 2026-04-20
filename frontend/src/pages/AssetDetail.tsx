@@ -10,22 +10,50 @@ import './AssetDetail.css';
 
 declare global { interface Window { ethereum: any; } }
 
-// Use real Google Maps Static API satellite imagery from coordinates
-function getSatelliteUrl(lat: number, lng: number) {
-  // Google Maps Static API — free tier, 25k/day. Uses actual satellite imagery.
-  const key = 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'; // public demo key - replace with yours
-  return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=16&size=800x400&maptype=satellite&markers=color:red%7C${lat},${lng}&key=${key}`;
-}
+// Curated high-quality Unsplash property photos by category
+// Multiple options per type for variety — selected by property ID hash
+const PROPERTY_PHOTOS: Record<string, string[]> = {
+  'Luxury Villa': [
+    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
+  ],
+  'Residential Plot': [
+    'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80',
+    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80',
+  ],
+  'Agricultural Land': [
+    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
+    'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80',
+    'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80',
+  ],
+  'Commercial Plot': [
+    'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',
+    'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+    'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+  ],
+  'Industrial Plot': [
+    'https://images.unsplash.com/photo-1587393836332-9a0fcafefeb6?w=800&q=80',
+    'https://images.unsplash.com/photo-1565610222536-ef125c59da2e?w=800&q=80',
+  ],
+  'Premium Apartment': [
+    'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
+    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80',
+  ],
+};
 
-// Fallback: Unsplash curated real land photos by category
-function getLandPhoto(type: string, fallback: string) {
-  const map: Record<string, string> = {
-    'Residential Plot':   'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
-    'Agricultural Land':  'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80',
-    'Commercial Plot':    'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',
-    'Industrial Plot':    'https://images.unsplash.com/photo-1587393836332-9a0fcafefeb6?w=800&q=80',
-  };
-  return map[type] || fallback;
+const FALLBACK_PHOTOS = [
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
+  'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80',
+];
+
+function getPropertyPhoto(type: string, id: string) {
+  // Simple hash from property ID to pick a consistent image
+  const hash = (id || '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const photos = PROPERTY_PHOTOS[type] || FALLBACK_PHOTOS;
+  return photos[hash % photos.length];
 }
 
 export default function AssetDetail() {
@@ -38,7 +66,6 @@ export default function AssetDetail() {
   const [txStatus, setTxStatus] = useState<'idle' | 'pending' | 'done' | 'error'>('idle');
   const [txHash, setTxHash] = useState('');
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
-  const [imgError, setImgError] = useState(false);
 
   const { addPurchase } = usePortfolio();
 
@@ -79,7 +106,7 @@ export default function AssetDetail() {
       fractions: receiveAmount,
       avgPrice: asset.tokenPrice,
       currentPrice: asset.tokenPrice,
-      image: getLandPhoto(asset.type, asset.image),
+      image: getPropertyPhoto(asset.type, asset.id),
       purchasedAt: new Date().toISOString(),
       assetType: asset.type || asset.landCategory || undefined,
     }, payAmount, hash);
@@ -236,10 +263,8 @@ export default function AssetDetail() {
 
   const receiveAmount = Math.max(1, Math.floor(payAmount / asset.tokenPrice));
 
-  // Real satellite image from Google Maps using property coordinates
-  const photoUrl = (asset.location && !imgError)
-    ? getSatelliteUrl(asset.location.lat, asset.location.lng)
-    : getLandPhoto(asset.type, asset.image);
+  // Property photo — curated Unsplash imagery by property type
+  const photoUrl = getPropertyPhoto(asset.type, asset.id);
 
   return (
     <div className="asset-detail animate-fade-in">
@@ -260,12 +285,11 @@ export default function AssetDetail() {
         </div>
       </div>
 
-      {/* Real satellite image */}
+      {/* Property hero image */}
       <div className="asset-hero-image" style={{position:'relative', borderRadius:'16px', overflow:'hidden', marginBottom:'2rem', height:'300px'}}>
         <img
           src={photoUrl}
-          alt={`Satellite view of ${asset.name}`}
-          onError={() => setImgError(true)}
+          alt={`View of ${asset.name}`}
           style={{width:'100%', height:'100%', objectFit:'cover'}}
         />
         <div style={{
@@ -283,11 +307,9 @@ export default function AssetDetail() {
             <MapPin size={13} style={{verticalAlign:'middle'}}/> {asset.address}
           </p>
         </div>
-        {!imgError && (
-          <div style={{position:'absolute', bottom:'1rem', right:'1rem', background:'rgba(0,0,0,0.6)', padding:'0.25rem 0.5rem', borderRadius:'6px', fontSize:'0.65rem', color:'#fff'}}>
-            📡 Real Satellite Imagery · Google Maps
-          </div>
-        )}
+        <div style={{position:'absolute', bottom:'1rem', right:'1rem', background:'rgba(0,0,0,0.6)', padding:'0.25rem 0.5rem', borderRadius:'6px', fontSize:'0.65rem', color:'#fff'}}>
+          🏠 {asset.type} · PropFi
+        </div>
       </div>
 
       <div className="detail-grid">
